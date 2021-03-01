@@ -1,0 +1,965 @@
+\documentclass{article}
+
+%Russian-specific packages
+%--------------------------------------
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[usenames]{color}
+\usepackage{colortbl}
+\usepackage[dvipsnames]{xcolor}
+%--------------------------------------
+
+%Hyphenation rules
+%--------------------------------------
+\usepackage{hyphenat}
+\hyphenation{ма-те-ма-ти-ка вос-ста-нав-ли-вать}
+%--------------------------------------
+\ProvidesPackage{packages}
+
+% \RequirePackage[T1,T2A]{fontenc}
+% \RequirePackage[utf8]{inputenc}
+% \RequirePackage[english,russian]{babel}
+
+\RequirePackage[left=2cm,right=2cm, top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsfonts}
+\RequirePackage{amsthm}
+\RequirePackage{graphicx}
+\RequirePackage[all]{xy}
+\setcounter{MaxMatrixCols}{20}
+
+\RequirePackage[colorlinks=true,linkcolor=black, urlcolor=blue]{hyperref}   
+\RequirePackage{multicol}
+\RequirePackage[shortlabels]{enumitem}
+\ProvidesPackage{environments}
+
+% Теоремы
+\theoremstyle{plain}
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}{Лемма} 
+\newtheorem{proposition}{Предложение}
+\newtheorem{corollary}{Следствие}
+\newtheorem{claim}{Утверждение}
+\newtheorem{definition}{Определение}
+
+\newtheorem*{claim*}{Утверждение}
+\newtheorem*{theorem*}{Теорема}
+\newtheorem*{lemma*}{Лемма}
+
+% Определения
+\theoremstyle{definition}
+
+\newtheorem{problem}[theorem]{Задача}
+\newtheorem{problems}[theorem]{Задачи}
+
+\newtheorem*{definition*}{Определение}
+\newtheorem*{problem*}{Задача}
+\newtheorem*{problems*}{Задачи}
+\newtheorem*{fact*}{Факт}
+
+% Замечания и примеры
+\theoremstyle{remark}
+\newcounter{example}
+\newcounter{remark}
+\newtheorem{example}[example]{Пример}
+\newtheorem{examples}[theorem]{Примеры}
+\newtheorem{remark}[remark]{Замечание}
+
+\newtheorem*{example*}{Пример}
+\newtheorem*{remark*}{Замечание}
+\ProvidesPackage{commands}
+
+\newcommand{\MatrixDim}[2]{\operatorname{M}_{#1\,#2}(\mathbb R)}
+\newcommand{\Matrix}[1]{\operatorname{M}_{#1}(\mathbb R)}
+\newcommand{\Vector}[1]{\mathbb R^{#1}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\spec}{\operatorname{spec}}
+\newcommand{\Sym}[1]{\operatorname{S}_{#1}}
+\newcommand{\Identity}{\operatorname{Id}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\dec}{\operatorname{dec}}
+\newcommand{\rk}{\operatorname{rk}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\height}{\operatorname{ht}}
+\newcommand{\ev}{\operatorname{ev}}
+\newcommand{\Bil}{\operatorname{Bil}}
+\newcommand{\SBil}{\operatorname{SBil}}
+\newcommand{\ABil}{\operatorname{ABil}}
+\newcommand{\Quad}{\operatorname{Quad}}
+\newcommand{\pr}{\operatorname{pr}}
+\newcommand{\ort}{\operatorname{ort}}
+\newcommand{\Vol}{\operatorname{Vol}}
+
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+
+\begin{document}
+\title{Конспект по математическому анализу}
+\date{}
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{Неопределенный интеграл}
+\subsection{Общие определения и обозначения}
+\begin{definition} Поднмножество $M$ действительных чисел называется промежутком, если $M = [a, b]$, $(a, b]$, $[a, b)$ или $(a, b)$. (если скобка круглая то там может быть и $\pm\infty$) Обозначается промежуток от $a$ до $b$ как $\left<a, b\right>$. 
+\end{definition}
+\begin{definition} Функция $F(x)$ называется первообразной для функции $f$ на промежутке $M$, если \[F'= f ~ \forall x \in M.\]
+\end{definition}
+\paragraph{Замечание} Если $a$ или $b$ не принадлежит промежутку $\left<a, b\right>$, то $F'(a)$ или $F'(b)$ определяется как односторонняя производная.
+
+\begin{claim} Если $F$ первообразная для $f$ на промежутке $M$, то $F + c (с = const)$ -- тоже первообразная $f$ на промежутке $M$. 
+\end{claim}
+\begin{proof} Достаточно использовать то, что $(f+g)' = f' + g'.$ 
+\end{proof}
+\begin{claim}
+Если $F_1, F_2$ -- первообразные для $f$ на промежутке $M$, то $F_1 - F_2 = c$ для какого-то произвольного действительного $c$. 
+\end{claim}
+\begin{proof} Предположим, что $H = F_1 - F_2$ В таком случае, $H' = 0$ на промежутке $M$. Пусть $x_1, x_2 \in M.$ По теореме Лагранжа о конечных приращениях существует точка $c \in (x_1, x_2)$ такая, что $H(x_2) - H(x_1) = H'(c)(x_2 - x_1).$ Поскольку $H'(c) = 0$, то мы видим, что значение $H$ во всех точках совпадает.
+\end{proof}
+\begin{definition} Операция перехода от $f$ к ее первообразной $F$ называется интегрированием. Совокупность всех первообразных от $f$ называется неопределенным интегралом и обозначается как $\int f(x)dx$ ($M$ обычно не указано, предполагается, что это область определения функции).
+\end{definition}
+\paragraph{Примеры}
+\begin{enumerate}
+\item $\displaystyle \int xdx = \Big\{\dfrac{x^2}{2} + c \;| \;c = const\Big\} = \frac{x^2}{2} + c$ (В первообразной принято писать ту же перемнную, что и у подинтегральной функции).
+\item $\displaystyle \int \dfrac{1}{x}dx = \int\dfrac{dx}{x} = \ln|x| + c$, где $c=const$. Вообще говоря, функция разбивается на два промежутка с разными константами, поскольку в нуле она не определена и получается вообще вот такое: $\ln(x) + c_1$ при $x > 0$, и $\ln(-x) + c_2$ при $x < 0$.
+\end{enumerate}
+\paragraph{Замечание.} Внутри интеграла работают стандартные дифференциальные обозначения: \[\int dg(x) = \int g'(x)dx.\]
+\subsection{Основные свойства неопределенного интеграла на промежутке $\left<a, b\right>$}
+\begin{enumerate}
+
+\item$\int f'(x)dx = f(x)$ -- по определению.\\
+\item $\int F'(x)dx = \int dF(x) = F(x) + c.$\\
+\item {Линейность интеграла.} Пусть существуют интегралы $\int f(x)dx$ и $\int g(x)dx$. В таком случае, для любых действительных чисел $a$, $b$ справедливо следующее равенство: \[ \int (\alpha f(x) + \beta g(x))dx = \alpha \int f(x)dx + \beta \int g(x)dx\]
+\end{enumerate}
+\subsection{Методы интегрирования.}
+\subsubsection*{Метод замены переменной.}
+\begin{claim}
+Пусть f(x) имеет на $\left<a, b\right>$ первообразную, а $\phi : \left<\alpha, \beta\right> \rightarrow \left<a, b\right>$ дифференцируема на $\left<\alpha, \beta\right>.$ Тогда на $\left<\alpha, \beta\right>$ существует интеграл \[\int f(\phi(t))\phi'(t)dt = \int f(\phi(t))d\phi(t)\] 
+\end{claim}
+Данное утверждение напрямую следует из дифференцирования сложной функции и объясняет, зачем в интеграле пишут $dx$. В некоторых источниках его опускают, однако для удобства записи лучше не забывать.
+\paragraph{Примеры.}
+\begin{enumerate}
+\item Найти интеграл $\int \tg(t) dt$ на промежутке $(-\frac{\pi}{2}, \frac{\pi}{2}).$
+\[\int \tg(t)dt = \int \frac{\sin{t}}{\cos{t}}dt = \int \frac{-d\cos{t}}{\cos{t}} = -\int \frac{d\cos{t}}{\cos{t}} = -\int \frac{dx}{x} = -\ln{|x|} + c,\] где $x = \cos{t}$
+
+\item Найти интеграл $\int \sqrt{1 - x^2}dx$ на области определения функции.
+\[\int \sqrt{1 - x^2}dx = [x = \sin{t}, t \in \left(-\frac{\pi}{2}, \frac{\pi}{2}\right)] = \int \sqrt{1 - \sin{t}^2}d\sin{t} =\]\[= \int |\cos{t}|\cos{t}dt = (\cos{t})^2dt = \int \frac{1 + \cos{2t}}{2}dt = \frac{t}{2} + \frac{\sin{2t}}{4} + C = [t = \arcsin{x}] = \frac{\arcsin{x}}{2} + \frac{x\sqrt{1 - x^2}}{2} + C.\]
+\end{enumerate}
+\begin{claim}\label{cl:partint} Пусть на промежутке $\left<a, b\right>$ функции $u(x)$ и $v(x)$ дифференцируемы существует $\int u'(x)v(x)dx$. Тогда существует \[\int u(x)v'(x)dx = u(x)v(x) - \int u'(x)v(x)dx.\]
+\end{claim}
+Утверждение становится очевидным, если проинтегрировать тождество $(uv)' - u'v = v'u.$
+\subsection{Таблица интегралов}
+Далее, все интегралы берутся на области определения функции, которая стоит справа.
+\begin{enumerate}
+    \item $\displaystyle \int x^{\alpha}dx = \frac{x^{\alpha + 1}}{\alpha + 1} + C$, если $\alpha \neq -1$.
+    \item $\displaystyle\int \frac{dx}{x} = \ln{|x|} + C$ (отдельные константы при $x > 0$ и $x < 0$)
+    \item $\displaystyle\int a^xdx  = \left(\int e^{\ln{a}x}dx \right) = \frac{a^x}{\ln{a}} + C$, $a > 0, a \neq 1.$
+    \item $\displaystyle\int \sin{x}dx = -\cos{x} + C$
+    \item $\displaystyle\int \cos{x}dx = \sin{x} + C$
+    \item $\displaystyle\int \frac{dx}{\cos^2{x}} = \tg{x} + C$
+    \item $\displaystyle\int \frac{dx}{\sin^2{x}} = -\ctg{x} + C$
+    \item $\displaystyle\int \frac{dx}{x^2 + a^2} = \frac{1}{a} \cdot \arctan{\frac{x}{a}} + C$
+    \item $\displaystyle\int -\frac{dx}{\sqrt{a^2 - x^2}} = \arccos{\frac{x}{a}} + C$
+    \item $\displaystyle\int \frac{dx}{\sqrt{a^2 - x^2}} = \arcsin{\frac{x}{a}} + C$
+    \item (Высокий логарифм) $\displaystyle\int \frac{dx}{a^2 - x^2} = \frac{1}{2a} \cdot \ln{\Big|\frac{x+a}{x-a}\Big|} + C$ 
+    \item (Длинный логарифм) $\displaystyle\int \frac{dx}{\sqrt{x^2 \pm a^2}} = \frac{1}{2}\left(\ln{\left(\frac{x}{\sqrt{a^2 \pm x^2}} + 1\right)} - \ln{\left(1 - \frac{x}{\sqrt{a^2 \pm x^2}}\right)}\right)$
+\end{enumerate}
+
+\section{Элементарные функции}
+\subsection{Общие определения}
+\begin{definition}
+Элементарные функции -- функции, которые можно получить с помощью конечного числа арифметических действий и композиций из следующих основных элементарных функций:
+\begin{itemize}
+    \item степенная функция с любым действительным показателем;
+    \item показательная и логарифмическая функции;
+    \item тригонометрические и обратные тригонометрические функции,
+\end{itemize}
+и которые определены на каком-то открытом подмножестве $\mathbb{R}.$
+\end{definition}
+\paragraph{Пример:} $\sin x ^{\cos x}$.\\
+
+\begin{itemize}
+    \item Если функция является элементарной, тогда она непрерывна на своей области определения.
+    \item Дифференцирование сохраняет класс элементарных функций.
+    \item А интегрирование не всегда. (Примеры: $\int e^{x^2}dx$, $\int e^{-x^2}dx$; $\int \frac{\sin x}{x}dx$, $\int \frac{\cos x}{x}dx$; $\int \frac{e^x}{x}dx$; $\int \sin(x^2)$,  $\int \cos(x^2)$; $\int \frac{\sin x}{\sqrt{x}}dx$, $\int \frac{\cos x}{\sqrt{x}}dx$; $\int \frac{dx}{\ln x}$)
+\end{itemize}
+
+\subsection{Теоремы, ценность которых в доказательствах}
+\begin{definition}
+Рациональная функция -- функция вида $\dfrac{P(x)}{Q(x)}$, где $P, Q$ -- многочлены ($Q$ не тождественный 0).
+Будем считать, что у $P$ и $Q$ нет общих делителей, а старший коэффициент $Q$ равен 1.
+Дробь $\frac{P}{Q}$ -- правильная, если $\deg P < \deg Q$.
+\end{definition}
+\paragraph{Обозначения:} $\mathbb{K}$ -- поле;\\
+$\mathbb{K}[x]$ -- множество всех многочленов от $x$ над полем $\mathbb{K}$;\\ 
+$\mathbb{K}(x)$ -- множество всех рациональных функций  над полем $\mathbb{K}$.
+
+\begin{theorem}\label{th:int_rat}
+Если $f \in\mathbb{R}(x)$, то $f$ интегрируема в элементарных функциях.
+\end{theorem}
+\paragraph{Замечание} Если $f = \dfrac{P}{Q}$ -- неправильная, то поделим с остатком $P = Q\cdot S + R$, $\deg R < \deg Q$. Тогда $f = \dfrac{Q\cdot S + R}{Q} = S + \dfrac{R}{Q}$, где $\dfrac{R}{Q}$ -- правильная.\\
+
+В силу замечания, достаточно доказать теорему для правильных дробей.
+\paragraph{Разложение дробей в сумму простейших:} 
+\paragraph{Напоминание:} ОТА: Поле комплексных чисел алгебраически замкнуто.
+\begin{corollary}
+Если $Q\in \mathbb{C}[x]$, $Q=x^n + a_{n-1}x^{n-1} + \ldots + a_0$, то $Q(x) = (x-\alpha_1)^{k_1}\cdot \ldots \cdot (x-\alpha_z)^{k_z}$.
+\end{corollary} 
+
+\begin{corollary} Если $Q=x^n + a_{n-1}x^{n-1} + \ldots + a_0 \in \mathbb{R}[x]$, тогда имеется разложение $Q(x) = (x-\alpha_1)^{k_1}\cdot \ldots \cdot (x-\alpha_s)^{k_s}(x^2+\beta_1x+\gamma_1)^{l_1} \cdot \ldots \cdot (x^2+\beta_{u}x+\gamma_{u})^{l_{u}}$. \end{corollary} 
+
+\begin{proof}
+$Q \in \mathbb{R}[x] \subset \mathbb{C}[x]$
+$$Q = \prod_{i = 1}^{t}(x - \alpha_i)^{k_i},\;\alpha_i \in \mathbb{C}$$
+\end{proof}
+
+\begin{lemma}\label{l:conj}
+Если $Q(\alpha) = 0$, то $Q(\overline{\alpha}) = 0$
+\end{lemma}
+
+\begin{proof}
+Сопрягаем  $\alpha^n + a_{n-1}\alpha^{n-1} + \ldots + a_0 = 0$
+%потом расписать
+\end{proof}
+
+Говоря умными словами, сопряжение -- это автоморфизм поля комплексных чисел.
+
+\begin{lemma}
+Кратности корня $\alpha$ и $\overline{\alpha}$ совпадают.
+\end{lemma}
+
+\begin{proof}
+Пусть без ограничения общности кратность $\alpha$ меньше и равна $k$.
+Тогда достаточно применить лемму \ref{l:conj} к $k$-й производной многочлена $Q(x)$.
+% Интуитивно понятно, так как можно применить предыдущее утверждение.
+%потом расписать
+\end{proof}
+
+\begin{definition}
+Рациональные функции вида $\dfrac{A}{(x-\alpha)^n}$ или дроби вида $\dfrac{Mx + N}{(x^2 + \beta x + \gamma)^n}$, где все коэффициенты действительные, дискриминант квадратичного выражения меньше нуля, $n > 0$ называются простейшими дробями
+\end{definition}
+Здесь мы можем рассматривать дроби с коэффициентами в любом поле.
+Теорема будет следовать из двух утверждений:
+\begin{theorem}\label{th:ratsum}
+Любую рациональную функцию можно представить в виде суммы простейших рациональных функций.
+\end{theorem}
+\begin{claim}
+Простейшие дроби интегрируемы в элементарных функциях
+\end{claim}
+\begin{claim}\label{}
+Любая правильная рациональная фукнция разлагается в виде суммы простейших, а именно если $f(x) = \dfrac{p(x)}{q(x)}$, где $q(x) = \prod_{i = 1}^{s}(x - x_i)^{k_i} \cdot \prod_{t = 1}^{l}(x^2 + \beta_t x + \gamma_t)^{m_t},$ то \[f(x) = \frac{A_{1 1}}{x - x_1} + \ldots + \frac{A_{1 k_1}}{(x - x_1)^{k_1}} + \ldots + \frac{A_{s 1}}{(x - x_s)} + \ldots + \frac{A_{s k_s}}{(x - x_s)^{k_s}} + \frac{M_{1 1}x + N_{1 1}}{(x^2 + \beta_1x + \gamma_1)} + \ldots + \frac{M_{1 m_1}x + N_{1 m_1}}{(x^2 + \beta_1x + \gamma_1)^{m_1}} + \ldots\]
+\end{claim}
+Все коэффициенты подбираются методом неопределенных коэффициентов.
+\begin{lemma}\label{l:split_lin}
+Пусть $\dfrac{P(x)}{Q(x)}$ -- правильная дробь и пусть $\alpha\in\mathbb{R}$ -- корень знаменателя кратности $k$ (то есть $Q(x) = (x-\alpha)^{k}\cdot \widetilde{Q}(x)$, $\widetilde{Q}(\alpha) \neq 0$).
+
+Тогда имеет место следующее разложение: $$\dfrac{P(x)}{Q(x)} = \frac{A}{(x - \alpha)^{k}} + \frac{\widetilde{P}(x)}{(x-\alpha)^{k-1}\cdot\widetilde{Q}(x)},$$ где $A\in \mathbb{R}$, а вторая дробь -- правильная.
+\end{lemma}
+
+\begin{proof}
+Для произвольного А имеем, что \[\frac{P(x)}{Q(x)} - \frac{A}{(x - \alpha)^k} = \frac{P(x) - A \cdot \widetilde{Q}(x)}{Q(x)}.\] Независимо от $A$, это правильная дробь. В целях подобрать $A$ так, чтобы в полученной дроби сократился множитель $(x - \alpha).$ Для этого нужно подобрать $\alpha$ таким образом, чтобы $\alpha$ являлся корнем числителя, то есть, чтобы $P(\alpha) - A \cdot \widetilde{Q}(\alpha) = 0.$ Это действительно осуществимо, так как $\widetilde{Q}(\alpha) \neq 0$ по определению $\widetilde{Q}.$
+\end{proof}
+
+\begin{lemma}\label{l:split_square}
+Пусть $\dfrac{P(x)}{Q(x)}$ -- правильная дробь и пусть $\delta$ (невещественный) комплексный корень $Q(x)$ кратности $l$ (то есть $Q(x) = (x^2+ \beta x + \gamma)^{l}\cdot \widetilde{Q}(x)$, где $(x^2+ \beta x + \gamma)=(x-\delta)(x-\overline{\delta})$, $\widetilde{Q}(\delta) \neq 0 $,  $\widetilde{Q}(\overline{\delta}) \neq 0$). 
+Тогда имеется разложение:
+$$\frac{P}{Q} = \frac{Mx + N}{(x^2 + \beta x + \gamma)^l} + \frac{\widetilde{P}(x)}{(x^2 + \beta x + \gamma)^{l-1}\cdot \widetilde{Q}(x)}.$$
+\end{lemma}
+
+\begin{proof}
+Распишем $$\dfrac{P}{Q} - \frac{Mx + N}{(x^2 + \beta x + \gamma)^l} = \frac{P(x)-(Mx + N)\cdot \widetilde{Q}(x)}{(x^2 + \beta x + \gamma)^l \cdot \widetilde{Q}(x)}.$$ 
+
+Это правильная дробь, теперь необходимо подобрать $M$ и $N$ так, чтобы числитель делился на $(x^2 + \beta x + \gamma).$ Для этого $\delta$ должен быть корнем числителя, тогда $\overline{\delta}$ автоматически будет корнем. Итак, это равносильно тому, что \[P(\delta) - (M\delta + N) \cdot \widetilde{Q}(\delta) = 0.\] 
+
+Известно, что $\widetilde{Q}(\delta) \neq 0.$ В таком случае, \[M\delta + N = \frac{P(\delta)}{\widetilde{Q}(\delta)}.\]
+
+Слева записано какое-то комплексное число, это, в свою очередь, то же самое, что два равенства на вещественные числа (отдельно на вещественную и мнимую части). Пусть $\delta = \delta_1 + i\delta_2.$ Тогда $M\delta_1 + N + i(M\delta_2) = \dfrac{P(\delta)}{\widetilde{Q}(\delta)}.$ Отсюда \[M = \Im\frac{P(\delta)}{\delta_2\cdot \widetilde{Q}(\delta)};\;\; N = \Re\frac{P(\delta)}{\widetilde{Q}(\delta)} - M\delta_1.\] 
+\end{proof}
+
+Отщепляя простейшие дроби от $\dfrac{P}{Q}$ по лемме \ref{l:split_lin} и лемме \ref{l:split_square}, получаем разложение в сумму простейших дробей. (Завершение доказательства теоремы \ref{th:ratsum}.)
+
+\textcolor{red}{пизда
+пойду кофе сделаю и приду}
+
+\textcolor{blue}{Предлагаю эти комментарии не убирать для истории:)}
+
+\textcolor{green}{Я родился :)}
+\textcolor{blue}{Ну нахуй такие контроши блять, я нахуй ничего не успеваю}
+\textcolor{green}{Да нормальная кр, ты чего}
+\textcolor{green}{Так, давайте я снчала на бумаге напишу, а потом отформачу если будет нужно в техе}
+\textcolor{blue}{Окс}
+
+
+\textcolor{red}{коля чекни тг. да норм кр вы чего это просто мы ебаны коля)))))) ну времени не хватает}
+\textcolor{blue}{Да бля, нормас, только я поебланил чуток(}
+
+
+
+\textcolor{red}{го параллельно писать с колей
+ято не успеем, потом дополнишь. кстати крусорами вообще-то видно кто пишет, мы гении}
+\textcolor{green}{Ок}
+\textcolor{blue}{Юля, вдвоем го, Арслан потом дополнит}
+
+
+
+\subsection{Продолжение доказательства теоремы 1}
+$$\int \frac{A}{(x-\alpha)^{k}}dx = 
+\left[
+\begin{aligned}
+A\cdot \ln{|x-\alpha|} + C, \text{ если } k = 1\\
+\frac{1}{1-k}\cdot \frac{A}{(x-\alpha)^{k-1}} + C, \text{ если } k > 1
+\end{aligned}
+\right.
+$$
+Осталось показать, как интегрировать следующее выражение:
+ \[
+\frac{Mx + N}{(x^2 + \beta x + \gamma)^k},\] где дискриминант знаменателя меньше нуля. Выделим полный квадрат в знаменателе: \[(x^2 + \beta x + \gamma) = \left(x + \frac{\beta}{2}\right)^2 + \left(\gamma - \frac{\beta^2}{4}\right).\] В таком случае, получим, что \[\int \frac{Mx + N}{(x^2 + \beta x + \gamma)^k}dx = [x + \frac{\beta}{2} = y, dx = dy] = \int \frac{My + N_0}{(y^2 + a^2)^k}dy = [\frac{y}{a} = t, dy = adt] = \int \frac{\widetilde{M}t + \widetilde{N}}{(t^2 + 1)^k}dt.\] \\
+Получится выражение вида \[\int \frac{\widetilde{M}t + \widetilde{N}}{(t^2 + 1)^k}dt = \int \frac{\widetilde{M}tdt}{(t^2 + 1)^k} + \int \frac{\widetilde{N}dt}{(t^2 + 1)^k}.\]
+\begin{itemize}
+    \item $t^2 + 1 = u, tdt = \dfrac{du}{2},$ тогда первый интеграл равен $$\frac{\widetilde{M}}{2}\int \frac{du}{u^k} = \frac{\widetilde{M}}{2(-k+1)u^{k-1}} + C.$$
+    \item Для вычисления второго интеграла введем следующий интеграл: $\displaystyle J_k(t) = \int \frac{dt}{(1+t)^k}.$ Заметим, что $\displaystyle J_1 = \int \frac{dt}{1 + t^2} = \arctg{t} + C.$ Далее, \[J_k(t) = \int \frac{dt}{(1 + t^2)^k} = [u = \frac{1}{(t^2 + 1)^k}, v = t] = \frac{t}{(t^2 + 1)^k} - \int t \cdot d\Big(\frac{1}{(t^2 + 1)^k}\Big) = \frac{t}{(t^2 + 1)^k} - \int \frac{-2kt^2dt}{(t^2 + 1)^{k+1}} =\]\[= \frac{t}{(t^2 + 1)^k} + 2k \int \frac{(t^2 + 1) - 1}{(t^2 + 1)^{k+1}}dt = \frac{t}{(t^2 + 1)^k} + 2k \cdot J_k(t) - 2k \cdot J_{k+1}(t).\]
+    
+    Выразив отсюда $J_{k+1}(t)$ через $J_{k}(t)$, получим, что \[J_{k+1}(t) = \frac{1}{2k}\Big((2k - 1)J_k(t) + \frac{t}{(t^2 + 1)^k}\Big).\] 
+\end{itemize}
+
+Отсюда по индукции следует, что $J_k(t)$ -- элементарная функция. Таким образом, теорема \ref{th:int_rat} об интегрировании рациональной функции в элементарные доказана.
+
+\textcolor{red}{затехаем сос лайдов короче}
+\textcolor{blue}{ну давай так наверное, хуй с ним.}
+
+
+
+\section{Рационализируемые интегралы}
+\begin{definition}
+Пусть $x_1, \ldots, x_k$ переменные и пусть $a_{*} \in\mathbb{R}$. Выражение $$P(x_1, \ldots, x_k) = \sum_{i_1, \ldots, i_k \in M} a_{i_1, \ldots, i_k}x_1^{i_1} \ldots x_k^{i_k},$$ где $M\subset \mathbb{Z}_{\geq 0}^{k}$ и $|M| < \infty$, называется многочленом от нескольких переменных $x_1, \ldots, x_k$.\\
+
+\noindent $\deg P= \max(i_1+ \ldots + i_k)$
+\end{definition}
+\noindent Множество всех многочленов: $\mathbb{R}[x_1, \ldots, x_k]$.
+
+\noindent Рациональная функция от нескольких переменных -- отношение двух многочленов.
+
+\noindent Множество рациональных функций: $\mathbb{R}(x_1, \ldots, x_k)$.
+
+\begin{definition}
+Интеграл, который элементарной заменой переменной сводится к интегралу от рациональной функции, называется рационализируемым интегралом.
+\end{definition}
+
+\subsection{Классы рационализируемых интегралов}
+\begin{claim}\label{cl:rat_root}
+Пусть $R(u, v) \in\mathbb{R}(u, v)$. Тогда $\displaystyle \int R\left(x, \sqrt[k]{\frac{ax+b}{cx+d}}\right)dx$ -- рационализируемый.
+\end{claim}
+\begin{proof}
+Если $ad-bc=0$, то $\dfrac{ax+b}{cx+d}=const$.
+
+Будем считать $ad-bc\neq 0$. Введем замену $$t = \sqrt[k]{\dfrac{ax+b}{cx+d}}.$$ Тогда $x = \dfrac{dt^k-b}{a-ct^k}=f(t)\in\mathbb{R}(t)$, $dx=f'(t)dt$. Следовательно, $\displaystyle \int R\left(x, \sqrt[k]{\frac{ax+b}{cx+d}}\right)dx = \int R(f(t),t)f'(t)dt$ -- рациональная функция.
+\end{proof}
+
+\begin{claim}
+Пусть $R(u, v) \in\mathbb{R}(u, v)$. Тогда $\int R(\cos x, \sin x)dx$ -- рационализируемый.
+\end{claim}
+
+\begin{proof}
+\textbf{Универсальная тригонометрическая замена:}
+$$t=\tg\left(\frac{x}{2}\right)\Rightarrow x=2\arctg t.$$
+Тогда $\cos x = \dfrac{1-t^2}{1+t^2}$, $\sin x =\dfrac{2t}{1+t^2}$, $dx = \dfrac{2}{1+t^2}dt$. Следовательно,  $\displaystyle \int R\left(\frac{1-t^2}{1+t^2}, \frac{2t}{1+t^2}\right)dt$ -- рациональная функция.
+\end{proof}
+
+\begin{claim}\label{cl:eulersubst}
+Пусть $R(u, v) \in\mathbb{R}(u, v)$. Тогда $\int R(x, \sqrt{ax^2+bx+c})dx$ -- рационализируемый.
+\end{claim}
+
+\begin{proof}
+\textbf{Метод "Подстановки Эйлера":}
+
+Случай $a=0$ относится к Утверждению \ref{cl:rat_root}. Поэтому далее считаем $a\neq 0$.
+
+Положим $u=x$, $v=\sqrt{ax^2+bx+c}$. Тогда $u, v$ связаны соотношением $v^2 = au^2+bu+c$. На плоскости $(u, v)$ оно задает квадрику. Об этом ниже.
+
+\subsection{Отступление об алгебраических кривых}
+\begin{definition}
+Пусть $P(u, v) \in \mathbb{R}[u, v]$ многочлен степени $k$. Тогда $\Gamma_p = \{ (u, v) \in \mathbb{R}^2 | P(u, v)=0 \}$ - называется алгебраической кривой $k$-того порядка.
+\end{definition}
+Если $k=2$, то такую кривую называют "квадрика" ("коника"), а если $k=3$, то "кубика".
+\paragraph{Примеры}
+\begin{itemize}
+    \item $v = u^2$ -- парабола.
+    \item $u^2 + v^2 = 1$ -- окружность.
+    \item $\dfrac{u^2}{a^2} + \dfrac{v^2}{b^2} = 1$ -- эллипс.
+    \item $uv = 1$ -- гипербола.
+    \item $u^2 - v^2 = 1$ -- также гипербола, только ее асимптоты -- это прямые $y = \pm x.$
+\end{itemize}
+\begin{definition}
+Пусть Г$_p$ - алгебраическая кривая. Выражения $u = \phi(t), v = \psi(t)$ называются параметризацией кривой Г$_p$, если хотя бы одно из них не равно константе и $\psi, \phi$ непрерывны (\textcolor{blue}{Арслан, про непрерывность вроде как было у тебя маленькими буквами, так что пересмотри потом пожалуйста}, \textcolor{green}{Да, тут все верно, он про непрерывность позже добавил, хотя не очень понимаю для чего они должны быть непрерывными}) и $P(u(t), v(t)) = 0.$ Если $\phi, \psi \in \mathbb{R}(t),$ то параметризация называется рациональной.
+\end{definition}
+\paragraph{Пример:}
+$x = \cos{t}, y = \sin{t} - $ нерациональная параметризация окружности.
+\begin{theorem}
+У невырожденной квадратичной кривой второго порядка есть рациональная параметризация.
+\end{theorem}
+\begin{proof}
+Пусть $(u_0. v_0) \in$ Г$_p.$ Проведем через нее прямую с угловым коэффициентом $t$. В таком случае, данную прямую можно задать следующим уравнением: \[l_t = \{(u, v) \in \mathbb{R}^2 | (v - v_0) = t(u - u_0)\}.\] 
+
+Найдем точку пересечения Г$_p \cap l_t$:
+\begin{equation*}
+    \left\{
+\begin{aligned}
+P(u, v) = 0 \;\;\;\;\;\; (1)\\
+v = v_0 + t(u - u_0)\;\;\;\;\; (2)
+\end{aligned}
+\right.
+\end{equation*}
+
+Подставив (2) в (1) получим квадратное уравнение относительно u: \[a_2(t)u^2 + a_1(t)u_1 + a_0(t) = 0, a_i \in \mathbb{R}[t].\] (Невырожденность верна при том условии, что $a_2(t)$ не является тождественным нулём, то есть не равна $0$ при всех $t$. (\textcolor{blue}{Арслан, тут тоже вопросик к невырожденности.} \textcolor{green}{Поправил.})) Понятно, что $u_0$ является решением данной сисстемы уравнений, поэтому по теореме Виета найдем второй корень: \[u_2(t) = \frac{-a_1(t)}{a_2(t)} - u_0 \in \mathbb{R}(t)\] \[v_2(t) = v_0 + t(u_2(t) - u_0) \in \mathbb{R}(t).\] В таком случае получается, что $P(u(t), v_2(t)) = 0$, а это и есть рациональная параметризация. Более того, выше приведен алгоритм, как ее находить.\\
+\end{proof}
+Вернемся к утверждению \ref{cl:eulersubst}. Имеем, что \[u = x, v^2 = ax^2 + bx + c.\] Как было доказано выше, существует рациональная параметризация, то есть $u = \phi(t), v = \psi(t) \in \mathbb{R}(t).$ Поскольку $u = x$, то $dx = \phi'(t)dt.$ В таком случае \[\int R(u, v)dx = \int R(\phi(t), \psi(t))\phi'(t)dt.\]
+
+
+\end{proof}
+
+\textcolor{blue}{Privet, напиши сюда какое-то вступление чтоб чуток было}
+\subsection{Ебу, опять отступление о разных примерах}
+\paragraph{Пример:} Попробуем параметризовать единичную окружность. Применим метод, описанный в доказательстве теоремы 3. Возьмем на окружности точку $(-1, 0)$ и проведем какую-то прямую с коэффициентом $t$. В таком случае, $y = t(x-1) $ -- уравнение "переменной прямой". Теперь найдем вторую точку пересечения:
+\[
+\left\{
+\begin{aligned}
+x^2 + y^2 = 1 \;\;\;\;\;\; (1)\\
+y = t(x-1)\;\;\;\;\; (2)
+\end{aligned}
+\right.
+\]
+Отсюда следует, что $x^2 + t^2(x^2 + 2x + 1) = 1,$ откуда \[(1 + t^2)x^2 + 2t^2x + (t^2 - 1) = 0.\] Один корень известен, он равен -1 и не зависит от $t$. Тогда по теореме Виета найдем второй корень: \[x_2 = -\frac{2t^2}{1+t^2} -x_1 = \frac{1-t^2}{1+t^2}.\] Заметим, что $x_2$ зависит от $t$ рационально. Теперь найдем $y_2$: $$y_2 = t(x_2 + 1) = \frac{2t}{1+t^2}.$$ В таком случае, рациональная параметризация окружности такова: \[x(t) = \frac{1 - t^2}{1 + t^2},\;\; y(t) = \frac{2t}{1 + t^2}.\]
+
+Данная параметризация напоминает универсальную тригонометрическую замену. В качестве $t$ здесь выступает $\tg{\beta},$ где $\beta = \frac{\alpha}{2}.$
+\paragraph{Замечание 1:} Если мы занимаемся интегрированием тригонометрических выражений, то мы просто интегрируем функцию по окружности, чтобы это ни значило (\textcolor{blue}{надо пометить, что это цитата Айзенберга, поскольку не особо ебу четкий смысл фразы этой})
+\textcolor{blue}{пока заебись успеваем, кажется лучше щас, так как потом идз ебучие}
+\textcolor{red}{да техать со слайдов это минут 40 времени, но можно и сейчас}
+\textcolor{blue}{Фига ты быстро умеешь техать конечно да..}
+
+
+\paragraph{Замечание 2:} Если в рац. параметризацию подставить рациональное $t$, то получится точка с рациональными координатами на окружности. И, наоборот, любая рациональная точка окружности получается таким образом.
+\[
+\left\{
+\begin{aligned}
+x(t) =  \frac{1 - t^2}{1 + t^2}\\
+y(t) = \frac{2t}{1 + t^2}
+\end{aligned}
+\right.
+\]
+
+Таким образом, если подставить $t = \frac{m}{n},$ то получится классификация Пифагоровых троек, то есть классификация целых решений уравнения $a^2 + b^2 = c^2.$ Обобщая рассуждение, доказательство Великой теоремы Ферма сводится к поиску рациональных точек на кривой $x^k + y^k = 1$ при $k \geq 3.$ Но рациональных параметризаций у кривых порядка $k \geq 3$ нет.
+
+\section{Определенный интеграл (Римана)}
+
+
+\begin{definition}
+Разбиение $\tau$ отрезка $[a, b]$ называется произвольное конечное подмножество его точек $\tau = \{x_i\}_{i=0}^{n}\;(n=n_{\tau})$. Точки $x_i$ отсортированы в порядке возрастания.
+\end{definition}
+\textcolor{blue}{кста, а будем картинки как-то накидывать?}
+
+\textcolor{red}{фоточки из тетрадки в клеточку, или скрины слайдов с лекций)))}
+\textcolor{blue}{хаха, звучит забавно}
+
+Подотрезки $[x_0, x_1],\ldots, [x_{n-1}, x_n]$ называются отрезками разбиения. Величины $\Delta x_i = x_i - x_{i-1}$ -- их длины.
+
+Мелкость или диаметр разбиения $ |\tau| = \max_{1\leq i \leq n}\Delta x_{i}.$
+
+\begin{definition}
+Будем говорить, что разбиение $\tau'$ называется разбиением или измельчением разбиения $\tau$ (обозначается $\tau' \prec \tau$), если $\tau' \supseteq \tau.$
+\end{definition}
+
+\paragraph{Основные свойства}
+\begin{itemize}
+    \item Образуют ЧУМ, то есть если $\tau_1 \prec \tau_2$ и $\tau_2 \prec \tau_3,$ то $\tau_1 \prec \tau_3$.
+    \item $\forall \tau_1, \tau_2$ $\exists \tau_3: \tau_3 \prec \tau_1$ и $\tau_3 \prec \tau_2$. Также очевидно в силу того, что мы можем взять все точки из $\tau_1$ и из $\tau_2$. Дальше какая-то неясная хуета... ну типа очевидно. Оставим это упражнение ина совести читателя.
+\end{itemize}
+
+\begin{definition}
+Размеченное разбиение -- это пара $(\tau, c)$, где $\tau$ -- разбиение $[a, b],$ $c = \{c_1, c_2, ... c_n\}, c_i \in [x_{i-1}, x_i].$
+\end{definition}
+
+
+
+\begin{definition}
+Пусть $f : [a, b] \rightarrow \mathbb{R}.$ Интегральная сумма Римана: \[S_{\tau, c}(f) = \sum_{i = 1}^{n_{\tau}} f(c_i) \cdot \Delta x_i.\]
+$n_{\tau}$ -- число отрезков в разбиении $\tau.$
+
+Проще говоря, это площади маленьких прямоугольников под графиком, с точностью до знака.
+\end{definition}
+\textcolor{blue}{Сори, что за мной правишь, а то не шарю за дизайн как ты(}
+\textcolor{red}{блин ахаха, просто предираюсь, дизайн 2021 чисто школа дизайна ниу вшэ и артемий лебедев сасат}
+\begin{definition}
+Предел $I = \lim_{|\tau| \rightarrow 0}S_{\tau, c}(f)$, если он существует называется определенным интегралом Римана от $f$ на $[a, b]$ и обозначается
+$$\int_a^bf(x)dx,$$
+а $f$ называется интегрируемой по Риману.
+\end{definition}
+
+Распишем предел $I = \lim_{|\tau| \to 0}S_{\tau, c}(f)$ по определению:
+\begin{equation}\label{def}
+ \forall \varepsilon\; \exists\; \delta = \delta(\varepsilon)\; \forall \tau,\; |\tau|<\delta \text{ и }\forall c_i\in[x_{i-1}, x_i]: \\
+ |S_{\tau, c}(f)-I| < \varepsilon.   
+\end{equation}
+
+\begin{theorem}[необходимое условие интегрируемости]
+Если $f$ интегрируема на $[a, b]$, то она ограничена на $[a, b]$.
+\end{theorem}
+
+\begin{proof}
+Докажем от противного. Пусть $f$ не ограничена. Если $\tau$ -- разбиение $[a, b]$, то существутет $k$, для которого $f$  не ограничена на $[x_{k-1}, x_k]$.
+Далее подберем $c_k\in [x_{k-1}, x_k]$ такое, что $f(c_k)$ сколь угодно большое (в силу неограниченности). Тогда $$S_{\tau, c}(f) = f(c_k)\Delta x_k + \sum_{i\neq k} f(c_i)\Delta x_i$$ противоречит условию (\ref{def}).
+\end{proof}
+
+Этого условия не достаточно.
+\paragraph{Пример:}
+Рассмотрим в качестве примера функцию Дирихле: \[\left\{
+\begin{aligned}
+f(x) = 1, \text{ если } x \in \mathbb{Q}\\
+f(x) = 0, \text{ если } x \notin \mathbb{Q}
+\end{aligned}
+\right.
+\]
+В любом отрезке есть как рациональное число, так и иррациональное. Если взять все $c_i$ рациаональными, а потом наоборот, то получится два разных результата, то есть предела не существует.
+
+Далее будем считать, что $f$ ограничена на $[a, b].$
+
+
+
+\begin{definition}
+Пусть $f : [a, b] \rightarrow \mathbb{R},$ $\tau = \{x_i\}_{i=0}^{n}$ -- разбиение на $[a, b]$.
+
+
+Рассмотрим
+\begin{itemize}
+    \item $M_i(f) = \sup_{c\in [x_{i-1}, x_i]} f(c)$, $m_i(f) = \inf_{c\in [x_{i-1}, x_i]} f(c)$.
+    \item $w_i(f) = M_i(f) - m_i(f)$ -- колебание на $i$-ом отрезке разбиения.
+    \item $\overline{S}_{\tau}(f) = \sum_{i=1}^n M_i(f)\Delta x_i$ -- верхняя интегральная сумма Дорбу
+    \item $\underline{S}_{\tau}(f) = \sum_{i=1}^n m_i(f)\Delta x_i$ -- нижняя интегральная сумма Дорбу
+\end{itemize}
+\end{definition}
+
+\paragraph{Замечание 1:} $\overline{S}_{\tau}(f) - \underline{S}_{\tau}(f) =\sum_{i=1}^n \omega_i(f)\Delta x_i$. 
+
+\paragraph{Замечание 2:} Для любой разметки $c=\{c_i\}$, где $c_i\in[x_{i-1}, x_i]$, выполнено 
+$$\underline{S}_{\tau}(f) \leq S_{\tau}(f) \leq \overline{S}_{\tau}(f),$$
+так как $m_i(f) \leq f(c_i) \leq M_i(f)$ (умножим на $\delta x_i > 0$ и просуммировать по $i$).
+
+\subsection{Критерий Дарбу}
+
+\begin{theorem}[критерий интегрируемости функции на отрезке, критерий Дарбу]
+$f$ интегрируема на $[a, b]$ тогда и только тогда, когда выполнено условие Дарбу:
+
+$$\lim_{|\tau| \to 0} (\overline{S}_{\tau}(f) - \underline{S}_{\tau}(f)) = 0$$
+
+
+То есть $\forall \varepsilon > 0$ $\exists \delta = \delta(\varepsilon):$ $\forall \tau,$ $|\tau| < \delta$:
+
+$$|\overline{S}_{\tau}(f) - \underline{S}_{\tau}| < \varepsilon$$
+
+
+
+\end{theorem}
+\textcolor{blue}{Ну что народ, погнали нахой. Потом там какие-то символы нахуярим}
+\begin{proof}
+Докажем $\Rightarrow.$ Пусть существует $\lim_{|\tau| \to 0} S_{\tau, c}(f) = I.$ Идея состоит в том, чтобы сначала брать в качестве $c_i$ брать точки максимума на $\Delta x_i,$ а затем брать минимальные (но тут не все так норм, поскольку максимума или минимума может не быть) Из того, что существует предел равный $I$, следует, что $$\lim_{|\tau| \to 0}\overline{S}_{\tau}(f) = I = \lim_{|\tau| \to 0}\underline{S}_{\tau}(f),$$ следовательно предел разности равен нулю. 
+
+А теперь само доказательство. Для фиксированного разбиения $\tau$ можно подобрать такие $c_i, \widetilde{c_i} \in [x_{i-1}, x_{i}]$ так чтобы $m_i(f) \leq f(c_i) \leq f(\widetilde{c_i}) \leq M_i(f)$ и при этом 
+\begin{equation}\label{eq1}
+   f(\widetilde{c_i}) - f(c_i) \geq \frac{1}{2}(M_i(f) - m_i(f)) 
+\end{equation}
+
+$$A=\{f(x) | x\in [x_i, x_{i+1}]\}$$
+
+$$M_i(f) = \sup A, \;m_i(f) = \inf A,\; w_i = M_i(f) - m_i(f)$$
+
+\begin{itemize}
+    \item $w_i = 0$ Тогда можно выбрать любые две точки отрезка, и все будет хорошо.
+    \item $w_i > 0$ подберем $\widetilde{a}$ из $A$  так, что  $M_i(f) - \dfrac{w_i}{4} \leq \widetilde{a} \leq M_i(f).$ Аналогично подберем точку, которая близка к инфимуму, тогда получится как раз требуемая оценка Так как оба числа принадлежат А, то существуют такие $c_i, \widetilde{c_i}$
+\end{itemize}
+По условию фукнция интегрируема, то есть определен предел $\lim_{|\tau| \to 0} S_{\tau, \widetilde{c}}(f) = I = \lim_{|\tau| \to 0}S_{\tau, c}(f)$.
+
+Воспользуемся оценкой (\ref{eq1}) и получим, 
+$$0\leq \overline{S}_{\tau}(f) - \underline{S}_{\tau} = \sum_{i=1}^{n_{\tau}} \Delta x_i(M_i(f) - m_i(f)) \leq 2 \sum_{i=1}^{n_{\tau}} \Delta x_i(f(\widetilde{c_i}) - f(c_i)) = 2(S_{\tau, \widetilde{c}}(f) - S_{\tau, c}(f)) \to 0.$$
+Получаем, что $\overline{S}_{\tau}(f) - \underline{S}_{\tau}(f) \to 0$ по лемме о миллиционерах (сотрудниках полиции).\\
+
+
+
+\begin{lemma}
+Если  $\tau_1 \prec \tau_2$, то $\underline{S}_{\tau_1}(f) \geq \underline{S}_{\tau_2}(f)$ и $\overline{S}_{\tau_1}(f) \leq \overline{S}_{\tau_2}(f)$.
+\end{lemma}
+\begin{proof}
+Если мы посмотрим на нижние суммы  бля $\tau_2,$ то при добавлении какой-то точки, наш "столбик" епта масло разбивается на две части, и тем больше по площади будет разбиение (\textcolor{cyan}{епта, неблагодарное дело (цитаты Айзенберга голубые)}). Более строго, $M\subseteq N$ влечет $\inf_{x \in M}f(x) \geq \inf_{x \in N}f(x),$ в то же время $\sup_{x \in M}f(x) \leq \sup_{x \in N}f(x).$
+\end{proof}
+\begin{lemma}
+Любая нижняя интегральная сумма Дарбу не превосходит любой верхней интегральной суммы Дарбу, то есть $\forall \tau_1, \tau_2$  выполнено $\underline{S}_{\tau_1}(f) \leq \overline{S}_{\tau_2}(f)$.
+\end{lemma}
+\begin{proof}
+Подберем $\tau_3 \prec \tau_1, \tau_2.$ Имеем 
+\[
+\underline{S}_{\tau_1} \leq \underline{S}_{\tau_3}(f) \leq \overline{S}_{\tau_3} \leq \overline{S}_{\tau_2}(f).
+\]
+\end{proof}
+
+
+Докажем $\Leftarrow$. 
+Рассмотрим числовые множества:
+$$A = \{\underline{S}_{\tau}(f) | \tau \text{ разбиение } [a, b]\},\;\;\;B = \{\overline{S}_{\tau}(f)\}$$
+Из Леммы 6 следует, что $\forall y \in A, z \in B : y \leq z.$ Из аксиомы непрерывности $\mathbb{R}$ следует, что $\exists I\in \mathbb{R}$:
+$$\forall y\in A y\leq I \text{ и } \forall z\in B z\geq I.$$
+
+Дано, что $$\lim_{|\tau| \to 0} (\overline{S}_{\tau}(f) - \underline{S}_{\tau}(f)) = 0.$$ Это значит, что $\sup A = \inf B = I$. Отсюда следует:
+\begin{itemize}
+    \item Единственность числа $I.$
+    \item $\forall \varepsilon > 0\; \exists \delta = \delta(\varepsilon): \forall \tau, |\tau| < \sigma: |\overline{S}_{\tau} - I| < \varepsilon$ и $|\underline{S}_{\tau}(f) - I| < \varepsilon$.
+\end{itemize}
+
+С другой стороны, $\underline{S}_{\tau} \leq S_{\tau, c}(f) \leq \overline{S}_{\tau}$.
+
+Следовательно, $S_{\tau, c}(f) \to I$ при $|\tau| \to 0.$ Таким образом, доказано, что функция $f$ интегрируема.
+\end{proof}
+
+\subsection{Следствия из критерия Дарбу}
+\begin{theorem}
+Если $f$ определена и монотонна на $[a, b]$, то $f$ интегрируема по Риману на $[a, b]$.
+\end{theorem}
+\begin{proof}
+Пусть $f$ удовлетворяет условию теоремы и для определенности монотонно не убывает. Тогда 
+\[
+\overline{S}_{\tau}(f) - \underline{S}_{\tau}(f) = \sum_{i = 1}^{n_{\tau}}\Delta x_i \cdot (M_i(f) - m_i(f)) = \sum_{i = 1}^{n_{\tau}}\Delta x_i \cdot (f(x_i) - f(x_{i - 1})) \leq \sum_{i = 1}^{n_{\tau}}|\tau| \cdot (f(x_i) - f(x_{i-1})) = |\tau| \cdot (f(b) - f(a))
+\]
+Это стремится к нулю при $|\tau| \to 0.$ Значит $f$ интегрируема.
+\end{proof}
+
+\begin{theorem}
+Если $f$ непрерывна на $[a,b]$, то она интегрируема по Риману на $[a,b]$.
+\end{theorem}
+\begin{proof}
+По теореме Кантора из непрерывности $f$ на $[a,b]$ следует равномерная непрерывность на $[a,b]$.
+\[
+\forall \varepsilon > 0 \exists \delta: \forall [c, d] \subseteq [a, b], d-c < \delta, \text{колебание } f\text{ на } [c, d] \text{ меньше } \varepsilon.\]
+
+В частности, для разбиения $\tau$ отрезка $[a, b]$ с мелкостью $\tau$ имеем
+\[
+\overline{S}_{\tau}(f) - \underline{S}_{\tau}(f) = \sum_{i = 1}^{n_{\tau}}\Delta x_i \cdot (M_i(f) - m_i(f)) \leq = \sum_{i = 1}^{n_{\tau}}\varepsilon\cdot \Delta x_i = \varepsilon\cdot (b-a) \to 0.
+\]
+\end{proof}
+\textcolor{blue}{ебать я тормоз просто пиздец}
+\subsection{Основные свойста определенных интегралов}
+Будем считать, что $f \in R([a, b])$ или $f \in R[a, b]$, если функция интегрируема на $[a, b]$.\\
+
+Свойства:
+\begin{enumerate}
+    \item $\int_a^b 1 \; dx = b-a$
+    \item Если $f \in R[a, b]$, то функция также интегрируема на любом подотрезке.
+    \item Аддитивность интеграла относительно отрезка интегрирования. Пусть $a < c < b$ и допустим, что $f$ определена на $[a, b]$ и $f\in R[a, c] \cap R[c, b]$. Тогда $f\in R[a, b]$ и интеграл суммы равен сумме интегралов, то есть $$\int_a^c f(x)dx = \int_a^c f(x)dx + \int_c^b f(x)dx.$$
+    \item Линейность интеграла относительно подинтегральной функции. Пусть $\lambda, \mu \in \mathbb{R}, f, g \in R[a, b].$ Тогда $\lambda f + \mu g \in R[a, b]$ и $$\int_a^b (\lambda f + \mu g)dx = \lambda \int_a^b f dx + \mu \int_a^b gdx.$$
+    \item Если $f, g \in R[a, b],$ то $f \cdot g \in R[a, b]$. 
+    \begin{proof} Пусть $F$ -- функция и $\Delta F(x_0) = F(x_0 + \Delta x) - F(x_0).$ Есть формула $$\Delta(fg)(x_0) = \Delta f(x_0)g(x_0 + \Delta x) + f(x_0)g(x_0)$$ (формула относительно $f$ и $g$ не симметрична).\\
+    
+    Пусть $[c, d] \in [a, b].$ Тогда $$\omega(fg, [c, d]) \leq \sup_{[c, d]}|g| \cdot \omega(f, [c, d]) + \sup_{[c, d]} |f| \cdot \omega(g, [c, d]).$$
+    
+    Пусть $\sup_{[c, d]}|g|$ и  $\sup_{[c, d]}|f|$ ограничены числом $A$, тогда 
+    $$\sum_{i = 1}^{n_\tau} \omega_i(fg)\Delta x_i \leq A \cdot\sum_{i=1}^{n_{\tau}}\omega_i(f)\Delta x_i + A\cdot \sum_{i=1}^{n_{\tau}}\omega_i(g)\Delta x_i \to 0.$$
+    \end{proof}
+    \item Если $f\in R[a, b]$  и $\inf_{[a, b]} f > 0,$ то $\frac{1}{f} \in \mathbb{R}[a, b]$.
+    \begin{proof}
+    $\omega_i\left(\dfrac{1}{f}\right)$ оценивается через $\omega_i(f)$
+    \end{proof}
+    \item Монотонность операции интегрирования. Пусть есть $f, g \in R[a, b],$ и $f \leq g$ на $[a,b].$ В таком случае соответствующее неравенство есть и для интегралов: $\int_a^b fdx \leq \int_a^b gdx$ (операция перехода к пределу монотонна). 
+    \item Если $f\in R[a, b],$ то и $|f| \in R[a, b]$ и
+    \begin{equation}\label{ineq}
+        \left|\int_a^b fdx\right| \leq \int_a^b|f|dx.
+    \end{equation}
+    
+    \begin{proof}
+    Интегрируемость можно вывести через критерий Дарбу, поскольку $\omega_i(|f|) \leq \omega_i(f).$
+    
+    Неравенство (\ref{ineq}) получается предельным переходом из неравенсвта для интегральных сумм и следующего неравенства для конечных сумм: $$\left|\sum_{i=1}^n a_i \right| \leq \sum_{i=1}^n |a_i|.$$
+    \end{proof}
+    \item Если $f\in R[a, b]$ и $f^*$ отличается от  $f$ значениями в конечном числе точек. Тогда $$\int_a^b f^*dx = \int_a^b fdx.$$
+    
+    \end{enumerate}
+    
+    
+  
+\paragraph{Замечание:} [рисунок] $\int_a^b fdx$ -- "площадь под графиком".
+\paragraph{Еще замечание (дополнение к свойству монотонности):} Если $f \geq 0,$ на $[a, b]$ и непрерывна на данном отрезке и $\exists \; c \in [a, b]: f(c) > 0$, то 
+$$\int_a^b f(x)dx > 0.$$
+\textcolor{cyan}{Естественно проще понять все с картинки, я приводить формальное доказательство не буду}
+\textcolor{blue}{На данный момент конспект имеет чуть большее количество строчек как мое идз}
+
+\subsection{Теорема о среднем для интеграла}
+\begin{theorem}[первая теорема о среднем для интеграла]\label{th:intavg1}
+Пусть $f, g \in R[a, b],$ и допустим, что $m \leq f \leq M $ на $[a, b]$ и пусть $g$ не меняет знак на $[a, b]$ (может быть нулем). 
+
+\begin{enumerate}
+    \item В таком случае $\exists \mu \in [m ,M]$ такое, что
+    $$\int_a^b f(x)g(x)dx = \mu \cdot \int_a^b g(x)dx.$$
+
+    \item При дополнительном условии непрерывности $f$ на $[a, b]$ выполнено $\exists\; c \in [a ,b]$ такая, что$$ \int_a^b f(x)g(x)dx = f(c)\cdot \int_a^b g(x)dx.$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Для определенности счиатем, что $g\geq 0$ на $[a, b]$. Тогда $m \leq f(x) \leq M $. Следовательно, $m\cdot g(x) \leq f(x)\cdot g(x) \leq M\cdot g(x) $ на $[a, b].$ Возьмем от всех частей неравенства интеграл (в силу свойства 5):
+Значит (по свойству 7 знаки сохранятся)
+\begin{equation}\label{exhash}
+ m \cdot \int_a^b g(x)dx= \int_a^b mg(x)dx \leq \int_a^b f(x)g(x)dx \leq \int_a^b Mg(x)dx = M \cdot \int_a^b g(x)dx   
+\end{equation}
+
+
+Рассмотрим два случая:
+\begin{enumerate}
+    \item $\int_a^b f(x)dx =0$. Тогда $\int_a^b f(x)g(x)dx =0$. Берем произвольный $\mu$.
+    \item $\int_a^b f(x)dx > 0$. Поделим (\ref{exhash}) на $\int_a^b g(x)dx$: 
+    \[
+    m \leq \frac{\int_a^b fgdx }{\int_a^b g dx} \leq M.
+    \] 
+
+    
+Тогда берем $\mu = \dfrac{\int_a^b f(x)g(x)dx }{\int_a^b g(x)dx} $.
+\end{enumerate}
+
+\textcolor{red}{Tнужно как-то написать что этов орая часть теоремы
+где была перваяф прсото
+начало}
+\textcolor{blue}{похуй}
+
+Если $f$ непрерывна, то возьмем $m = \min_{[a,b]} f$, $M = \max_{[a,b]} f$. По теореме о промежуточном значении $\exists \;c \in [a, b]: f(c) = \mu,$ где $\mu \in [m, M]$ ($\mu$ из первого пункта теоремы). Тогда $$ \int_a^b f(x)g(x)dx = f(c)\cdot \int_a^b g(x)dx.$$
+\end{proof}
+\paragraph{Следствие:} Пусть $f$ непрерывна на отрекзке $[a, b]$ ($f \in C[a, b]$), тогда $\exists \; c\in [a, b]$:
+$$\int_a^b f(x)dx = f(c)\cdot (b-a).$$
+Для доказательства положим $g(x) \equiv 1$ в теореме \ref{th:intavg1}.
+\textcolor{blue}{охуенно, что мы делаем конспект, перечитывать совсем не помешает} прекрасное решение
+
+
+
+
+\begin{theorem}[вторая теорема о среднем для интеграла]\label{th:intavg2}
+Пусть $f$ монотонна на отрезке $[a, b]$ (мб  не строго), а $g$ интегрируема по Риману, тогда существует точка $c$, принадлежащая отрезку $[a, b]$ такая, что выполнено тождество
+
+$$\int _a^b f(x)g(x)dx=f(a)\int_a^c g(x)dx + f(b)\int_c^b g(x)dx.$$
+
+\end{theorem}
+
+
+\section{Связь определенных и неопределенных интегралов}
+\begin{definition}
+Пусть $f\in R[a, b].$ Тогда  ($x$ сменим на $t$, коллизия имен, все дела)
+\[
+F(x) = \int_a^x f(t)dt,\;\;\;x\in(a,b]
+\]
+называют интегралом с переменным верхним пределом интегрирования.
+
+Аналогично
+\[
+G(x) = \int_x^b f(t)dt,\;\;\;x\in[a,b)
+\]
+называют интегралом с переменным нижним пределом интегрирования.
+\end{definition}
+\begin{claim}
+Если $f\in R[a, b],$ то $F, G \in C(a, b).$
+\end{claim}
+
+\paragraph{Соглашение:} 
+\begin{itemize}
+    \item Если $f$ определена в точке $a$, то $$\int_a^a f(x) = 0.$$
+    \item Если $a > b,$ то $$\int_a^b f(x)dx = -\int_b^a f(x)dx.$$
+    
+Прелести: 
+\begin{itemize}
+    \item $\forall a, b, c \in \mathbb{R}:$ $$\int_a^b fdx = \int_a^c fdx + \int_b^c fdx.$$
+    \item Теорема \ref{th:intavg1} верна для любых $ a, b$ (необязательно следить за знаками вовсе).
+\end{itemize}
+\end{itemize}
+
+\begin{theorem}
+Пусть $f\in \mathbb{с}[a, b]$ и $\displaystyle F(x) = \int_a^x f(t)dt$, $\displaystyle G(x) =\int_x^b f(t)dt$.
+
+Тогда $F, G$ дифференцируемы на $[a,b]$ и $F'(x) = f(x)$ и $G'(x) = -f(x)$.
+\end{theorem}
+
+
+\begin{proof}
+По определению производной $$F'(x) = \lim_{\Delta x \to 0} \frac{F(x+\Delta x) - F(x)}{\Delta x} = \lim_{\Delta x \to 0} \frac{\int_a^{x+\Delta x}f(t)dt - \int_a^{x}f(t)dt}{\Delta x} = \lim_{\Delta x \to 0} \frac{\int_x^{x+\Delta x}f(t)dt}{\Delta x}.$$
+
+Продолжаем по теореме \ref{th:intavg1} для $c\in [x, x+\Delta x]$ (или $[x+\Delta x, x]$):
+$$F'(x)= \lim_{\Delta x \to 0} \frac{f(c)\cdot \Delta x}{\Delta x} = \lim_{\Delta x \to 0}f(c) = f(x).$$
+
+Теперь для $G(x)$ поступим хитрее:
+$$F(x) + G(x) = \left(\int_a^x + \int _x^b\right)f(t)dt = \int_a^b f(t)dt = const.$$
+
+Если такое выражение продиффернцировать по $x$, то получится, что $F'(x) + G'(x) = 0$ откуда и следует $$G'(x) = -F'(x) = -f(x).$$
+\textcolor{cyan}{Такое и в школе было у многих}
+\end{proof}
+
+
+
+\paragraph{Следствие:} Пусть $f\in C\left<a, b\right>$. Тогда у $f$ на $\left<a, b\right>$ есть первообразная. 
+
+\begin{proof}
+$F(x) = \int_{x_0}^x f(t)dt,$ где $x_0\in \left<a, b\right>$. Тогда надо проверить, что $F'(x) = f(x)$.
+\end{proof}
+
+\subsection{Формула Ньютона-Лейбница}
+\begin{theorem}[основная теорема интегрального исчисления, Формула Ньютона-Лейбница]\label{th:nlformula} Пусть $f\in C[a,b]$ и $\Phi$ -- ее первообразная.
+Тогда имеет место следующая формула: $$\int_a^b f(x)dx = \Phi(b) - \Phi(a)$$ (независимо от того, что больше: $a$ или $b$).
+\end{theorem}
+
+\begin{proof}
+По предыдущему следствию: $F(x) = \int_a^x f(t)dt$ -- первообразная для $f$.
+Значит $F(x) = \Phi(x) + C.$ Тогда
+$$\int_a^x f(t)dt =\Phi(x) +C,$$
+$$\int_a^a f(t)dt =\Phi(a) +C = 0 \Rightarrow C =-\Phi(a).$$
+\end{proof}
+
+\textcolor{blue}{за нами следит какой-то аноним}
+\textcolor{red}{он не может тутписать ахахаха, можем кибербуллить}
+\textcolor{blue}{хахахахаххаха}
+\paragraph{Обозначения:} $\displaystyle\Phi(x) \Big|_a^b = \Phi(b) - \Phi(a),$ $\displaystyle\int_a^b f(x)dx = \Phi(x) \Big|_a^b$
+
+
+\textcolor{blue}{приует\\
+вот она, счастливая жизнь, когда бдзшки подряд идут}
+
+\subsection{}
+\begin{theorem}[замена переменной]\label{th:varreplace}
+Пусть $\varphi, \varphi' \in C[\alpha, \beta],$ а $f$ непрерывна на $\varphi([\alpha,\beta])$ 
+ 
+Пусть $a=\varphi(\alpha)$, $b = \varphi(\beta)$. Тогда
+$$\int_a^bf(x)dx = \int_{\alpha}^{\beta}f(\varphi(t))\cdot \varphi'(t)dt.$$
+\end{theorem}
+\begin{proof}
+Пусть $\Phi$  -- первообразная для $f$ на $\varphi([\alpha,\beta]).$ Тогда возьмем композицию 
+функций $\Phi(\varphi)$.
+Эта композиция будет первообразной для $f(\varphi) \cdot \varphi'$ на $[\alpha,\beta]$ Применив формулу Ньютона-Лейбница дважды, получим, что 
+
+$$\int_a^bf(x)dx = \Phi(b) - \Phi(a) = \Phi(\varphi(\beta)) - \Phi(\varphi(\alpha)) = \int_{\alpha}^{\beta}f(\varphi(t))\cdot \varphi'(t)dt.$$
+
+
+\end{proof}
+
+
+\begin{theorem} [интегрирование по частям]
+Пусть $u, v, u', v' \in C[a, b].$ Тогда \begin{equation}\label{eq:partint}
+\int_a^b u(x)v'(x)dx = u(x)v(x) \Big|_a^b - \int_a^b u'(x)v(x)dx
+\end{equation}
+\end{theorem}
+\begin{proof}
+Применяя формулу Ньютона-Лейбница, сведем к утверждению \ref{cl:partint} об интегрировании по частям для неопределенных интегралов.
+\textcolor{cyan}{никаких вроде бы нет подводных камней}
+\end{proof}
+
+
+\begin{definition}
+Функция $f$ называется непрерывной и кусочно непрерывно дифференцируемой на отрезке $[a,b]$ если существует какое-то разбиение $[a,b]$ $a<c_1 < c_2 < \ldots < c_{s} < b$
+такое, что $f$ дифференцируема на каждом отдельном отрезке $[a, c_1], [c_1, c_2], \ldots $ (и $f'$ непрерывна на них) и при этом $f$ непрерывна на $[a, b].$
+\end{definition}
+
+\paragraph{Замечание:} Если $u, v$ непрерывны и кусочно непрерывно дифференцируемы на $[a, b]$, то формула (\ref{eq:partint}) все еще верна.
+
+\section{Геометрические приложения}
+\textcolor{cyan}{Куда идем: определенный интеграл -- площадь фигуры под графиком}
+
+\subsection{Мера Жордана}
+\textcolor{blue}{Давайте еще одну, правильно}
+
+
+Другими словами, мера Жордана -- $n$-мерный объем подмножеств в $\mathbb{R}^n$. В основном, рассматриваем $n=1,2,3$.
+
+\begin{definition}
+$\Delta = [a_1, b_1] \times [a_2, b_2]\times \ldots \times[a_n, d_n] \subset \mathbb{R}^n$ -- прямоугольный параллелепипед.
+Иными словами, $\Delta = \{(x_1, x_2, ... , x_n)\;|\; \forall\; i \; a_i \leq x_i \leq b_i\}.$
+\end{definition}
+
+\paragraph{Свойство:} Если $\Delta, \Delta'$ -- параллелепипеды, то $\Delta \cap \Delta'$ -- тоже параллелепипед или $\varnothing$.
+
+\begin{definition}
+Элементарная прямоугольная фигура -- это объединение конечного числа прямоугольных параллелепипедов. 
+\end{definition}
+
+
+
+Определим меру Жордана для прямоугольных фигур, исходя из правил:
+\begin{enumerate}
+    \item Величину $\mu(\Delta) = \prod_{i = 1}^{n} (b_i - a_i)$ будем называть объемом фигуры.
+
+    \item Формула включений-исключений: $$\mu(\Delta_1\cup \Delta_2) = \mu(\Delta_1) + \mu(\Delta_2) - \mu(\Delta_1\cap \Delta_2).$$ Отсюда следует общая комбинаторная для объемов $n$ параллелепипедов:
+    $$\mu(\cup_{i=1}^s \Delta_i) = \sum_{i\in [s]}\mu(\Delta_i) - \sum_{\{i, j\}\in [s]}\mu(\Delta_i \cap \Delta_j) +  \sum_{\{i, j, k\}\in [s]}\mu(\Delta_i \cap \Delta_j \cap \Delta_k) - \ldots.$$ 
+    \textcolor{cyan}{Не буду обосновывать, там корректно. Почему все так - можете подумать.}
+
+\end{enumerate}
+
+Однако наша вселенная состоит не только из квадратиков и прямоугольничков, но еще и из более сложных фигур.
+
+\begin{definition}
+Пусть $E \subset \mathbb{R}^n$ -- ограниченное подмножество (то есть лежит в некотором прямоугольном параллелепипеде).
+Положим $$\overline{\mu}(E) = \inf_{E \subseteq A} \mu(A),$$ где $A$ - прямоугольная фигура.
+
+Аналогично, $$\underline{\mu}(E) = \sup_{E \subseteq A} \mu(A),$$ 
+$A$ -- прямоугольная фигура.
+
+Если $\overline{\mu}(E) = \underline{\mu}(E)$, то $E$ называется измеримым по Жордану (при $n = 2$ называется квадрируемым, при $n = 3$ - кубируемым), а $\mu(E) = \overline{\mu}(E)$ называется мерой Жордана $E$.
+
+\end{definition}
+\paragraph{Свойства}
+\begin{enumerate}
+    \item Для параллелепипедов и прямоугольных фигур $\mu$ совпадает с раннее определенным.
+    \item Монотонность меры.
+    Если $E\subseteq E'$ измеримы, то $\mu(E) \leq \mu(E')$.
+    \item Аддитивность меры.
+    Если $E, E'$ измеримы и не пересекаются, то $\mu(E\cup E') = \mu(E) +\mu(E')$.
+    
+    \item Пусть $F : \mathbb{R}^n \rightarrow \mathbb{R}^n$ -- движение пространства (преобразование, сохраняющее расстояния между точками). Если $E\subset \mathbb{R}^n$ измеримо, то $F(E)$ тоже измеримо и $\mu(F(E)) = \mu(E)$.
+    
+ 
+    \item \textbf{Свойство звездочка, как мазь:}
+    Вообще говоря, если $A$ -- матрица порядка $n$, $F: \mathbb{R}^n \rightarrow \mathbb{R}^n$  $F(x) = Ax$, то если $E \subset \mathbb{R}^n$ измеримо, то $F(E)$ тоже измеримо и $\mu(F(E)) = \mu(E)\cdot |\det A|$.
+
+\end{enumerate}
+
+\begin{definition}
+Пусть $f_1, f_2$ -- функции на $[a,b]$ и $f_2(x) \geq f_1(x) \;\forall\; x\in [a, b]$. Тогда фигура (подмножество)
+$$\phi = \{(x, y) \in \mathbb{R}^2 | a\leq x\leq b, \;\; f_1(x)\leq y \leq f_2(x) \}$$ называется криволинейной трапецией.
+\end{definition}
+
+\begin{claim}
+Если $f_1, f_2 \in R[a, b]$, то $\phi$ квадрируема и $\mu(\phi) = S_{\phi}$ равна 
+$$\int_a^b (f_2(x) - f_1(x))dx.$$
+
+
+\end{claim}
+
+\begin{proof}
+Докажем в случае $f_1(x) \equiv 0.$ Доказательство начнем с рисунка. (он ведь у всех есть) Требуется, чтобы площадь под графиком была равна $\int_a^b f_2(x)dx$. Вспомним, что 
+$$\int_a^b f_2(x)dx = \inf_{\tau}\overline{S}_{\tau}(f_2) = \sup_{\tau}\underline{S}_{\tau}(f_2)$$
+Заметим, что верхние интегральные суммы $\overline{S}_{\tau}(f_2)$ -- это площадь (мера Жордана) элементарной прямоугольной фигуры, которая содержит криволинейную трапецию $\phi$.
+
+Аналогично, $\underline{S}_{\tau}(f_2)$ -- это площадь (мера Жордана) элементарной прямоугольной фигуры, которая содержится в $\phi$. 
+
+Если $f_1 \not\equiv 0,$ то можно описать вокруг $\phi$ разницу прямоугольных фигур, соответствующих $\overline{S}_{\tau}(f_2)$ и $\underline{S}_{\tau}(f_1)$, а также можно вписать в $\phi$ разницу прямоугольных фигур, соответствующих $\underline{S}_{\tau}(f_2)$ и $\overline{S}_{\tau}(f_1)$.
+Разницу площадей
+$\overline{S}_{\tau}(f_2) - \underline{S}_{\tau}(f_1)$ и  $\underline{S}_{\tau}(f_2) - \overline{S}_{\tau}(f_1)$ можно сделать меньше $\varepsilon$. %%поправить
+
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
