@@ -5,5 +5,4 @@ main.toc
 .DS_Store
 main.fdb_latexmk
 main.fls
-main.syntex.gz
-
+main.synctex.gz
