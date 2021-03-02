@@ -95,6 +95,8 @@
 \newcommand{\ort}{\operatorname{ort}}
 \newcommand{\Vol}{\operatorname{Vol}}
 
+\renewcommand{\*}{\cdot}
+\def\eps{\varepsilon}
 \renewcommand{\Re}{\operatorname{Re}}
 \renewcommand{\Im}{\operatorname{Im}}
 
@@ -624,6 +626,223 @@ $$\forall y\in A y\leq I \text{ и } \forall z\in B z\geq I.$$
 Следовательно, $S_{\tau, c}(f) \to I$ при $|\tau| \to 0.$ Таким образом, доказано, что функция $f$ интегрируема.
 \end{proof}
 
+\subsection{Критерий Дарбу - 2}
+Мне не нравится, как на лекции был доказан критерий Дарбу, я попробую сделать это строже.
+
+Сохраним обозначения для удобства, верхних, нижних сумм Дарбу.
+
+\begin{lemma}
+    Если $\tau$ -- произвольное разбиение отрезка $[a,b]$, а $\tau'$ его измельчение, то верно следующее:
+    \[
+        \overline{S}_{\tau}(f) \geq \overline{S}_{\tau'}(f)
+    \]
+    \[
+        \underline{S}_{\tau}(f) \leq \underline{S}_{\tau'}(f)
+    \]
+\end{lemma}
+
+\begin{proof}
+    Добавим некоторых обозначений, пусть $x_i \in \tau$, тогда $\Delta_i = [x_{i-1}, x_i]$.
+
+    Теперь добавим обозначений и для измельчений. Пусть $\tau'$ разбивает $\Delta_i$ каким-то образом,
+    пусть это точки $x_{i-1} = y_0 < y_1 < ... < y_k = x_{i}$, тогда $x_{ij} = y_j$. Аналогично $\Delta_{ij} = [x_{i (j-1)}, x_{ij}]$
+
+    Тогда заметим, что :
+    \[
+        \sum_{j = 1}^k \left(\sup_{x \in \Delta_{ij}}f(x)\right)  \* |\Delta_{ij}| \leq 
+        \sum_{j = 1}^k \left(\sup_{x \in \Delta_{i}} f(x)\right) \* |\Delta_{ij}|
+        = \left(\sup_{x \in \Delta_{i}} f(x)\right) |\Delta_i|
+    \]
+    \[
+        \sum_{j = 1}^k \left(\sup_{x \in \Delta_{ij}}f(x)\right)  \* |\Delta_{ij}| \geq 
+        \sum_{j = 1}^k \left(\sup_{x \in \Delta_{i}} f(x)\right) \* |\Delta_{ij}|
+        = \left(\sup_{x \in \Delta_{i}} f(x)\right) |\Delta_i|
+    \]
+    
+    Таким образом, мы получили, что суммы Дарбу $\tau'$ на каждом из отрезков 
+    разбиения $\tau$ больше (меньше), чем сумма Дарбу на этом же отрезке в $\tau$.
+
+    Переходя, к сумме по всем отрезкам разбиения $\tau$ мы получаем необходимое нам неравенство.
+\end{proof}
+
+\begin{lemma}
+    Докажем, что для любых двух разбиений $\tau_1, \tau_2$, верно, что:
+   \[
+       \overline{S}_{\tau_1}(f) \geq \underline{S}_{\tau_2} (f)
+    \]
+\end{lemma}
+
+\begin{proof}
+    Пусть $\tau_3 = \tau_1 \cup \tau_2$, тогда по предыдущей лемме верно следующее.
+
+    \[
+       \overline{S}_{\tau_1}(f) \geq \overline{S}_{\tau_3}(f) \geq \underline{S}_{\tau_3}(f) \geq \underline{S}_{\tau_2} (f)
+    \]
+
+\end{proof}
+
+\begin{definition}
+~\
+    \begin{itemize}
+        \item $\mathbb{T}$ -- множество всех разбиений отрезка $[a, b]$.
+        \item $\mathbb{\widetilde{T}}$ -- множество всех отмеченных разбиений отрезка $[a, b]$.
+        \item $\overline{I} = \inf_{\tau \in \mathbb{T}} \overline{S}_\tau(f)$
+        \item $\underline{I} = \sup_{\tau \in \mathbb{T}} \underline{S}_\tau(f)$
+    \end{itemize}
+
+\end{definition}
+
+Данное определение корректно только для ограниченных функций, остальные мы не рассматриваем, так как они 
+не интегрируемы. 
+
+\begin{lemma}
+    Для любого разбиения $\tau \in \mathbb{T}$ верно, что:
+    
+    \[ 
+        \overline{S}_{\tau}(f) = \sup_{c} S_{t, c}(f), \quad \underline{S}_{\tau}(f) = \inf_{c} S_{t, c}(f)
+    \]
+\end{lemma}
+
+\begin{proof}
+    Докажем, для верхней суммы, для нижней аналогично. Заметим, что мы берем супремум по всем способам разметить $\tau$.
+
+    Теперь нам известно, что для любого $c$ $ \overline{S}_{\tau}(f) \geq S_{\tau, c}(f) \geq \underline{S}_{\tau}(f)$, это следует напрямую 
+    из определения верхней и нижней суммы Дарбу.
+    
+    Осталось найти для каждого $\varepsilon$, такое разбиение $c'$, что $ S_{\tau, c}(f) \geq \overline{S}_{\tau}(f) - \eps$. 
+    Для этого выберем в каждом отрезке разбиения точку $c'_i$, такую, что $f(c_i) \geq M_i - \frac{\eps}{b - a}$, так можно по определению 
+    точной верхней грани.
+
+    Теперь, посмотрим на Риманову сумму с такой разметкой.
+
+    \[
+        \sum_{i = 1}^n f(c_i) \Delta_i \geq \sum_{i = 1}^n M_i \Delta_i - \eps = \overline{S}_{\tau} (f) - \eps
+    \] 
+
+\end{proof}
+
+\begin{theorem}
+    $f: X \rightarrow \mathbb{R}$, определена на отрезке $[a, b]$ и ограничена. Тогда:
+
+    \[
+        \lim_{|\tau| \-> 0} \overline{S}_{\tau}(f) = \overline{I}
+    \]
+
+    \[
+        \lim_{|\tau| \-> 0} \underline{S}_{\tau}(f) = \underline{I}
+    \]
+\end{theorem}
+
+\begin{proof}
+    Напомним, что такое предел по параметру разбиения. Пусть $\Phi(p)$, это некоторая функция от разбиения, возможно помеченного, 
+    но я напишу определение для непомеченного. 
+    
+    Число $A$ называется пределом $\Phi(p)$ по параметру разбиений, если  для 
+    любого $\varepsilon > 0$, существует такая $\delta = \delta(\varepsilon) > 0$, 
+    что для любого $\tau \in \mathbb{T} (\mathbb{ \widetilde{T}})$, верно, что:
+
+    \[
+        \left| \Phi(\tau) - A \right| < \varepsilon
+    \]
+
+    Докажем, для верхней суммы, для нижней аналогично.
+
+    Поскольку $\overline{I}$ -- инфинум по всему множеству верних сумм, для произвольного $\varepsilon$ найдется такое разбиение $\tau_0$, что:
+
+    \[
+    \overline{I} \leq \overline{S}_{\tau_0}(f) \leq \overline{I} + \varepsilon
+    \]
+
+    Теперь рассмотрим, произвольное разбиение $\tau$, такое, что $|\tau| < \delta$, где $\delta$ некоторое положительное число, выберем его позже.
+
+    Теперь начнем проводить оценку.
+    \[
+        \overline{S}_{\tau}(f) - \overline{I} = \overline{S}_{\tau}(f) - \overline{S}_{\tau_0}(f) + \overline{S}_{\tau_0}(f) - \overline{I} < 
+        \overline{S}_{\tau}(f) - \overline{S}_{\tau_0}(f) + \varepsilon
+    \]
+
+    Теперь перейдем от $\tau_0$, к $\tau_1 = \tau \cup \tau_0$, тогда $\overline{S}_{\tau_0}(f) \geq \overline{S}_{\tau_1}(f)$, тогда:
+
+    \[
+        \overline{S}_{\tau}(f) - \overline{I}  < 
+        \overline{S}_{\tau}(f) - \overline{S}_{\tau_0}(f) + \varepsilon \leq 
+        \overline{S}_{\tau}(f) - \overline{S}_{\tau_1}(f) + \varepsilon
+    \]
+
+    Заметим, что $\overline{S}_{\tau}(f) $ и $\overline{S}_{\tau_1}(f)$, отличаются только 
+    в тех отрезках разбиения, в которые мы добавили точки из $\tau_0$, пусть в $\tau_0$, было $k$ точек, 
+    тогда мы могли добавить максимум $2k$ новых отрезков разбиений, пусть $\delta_i$ это новый отрезок разбиения, 
+    который есть в $\tau_1$, но его нет в $\tau$, тогда:
+    
+    \[ 
+        \overline{S}_{\tau}(f)  - \overline{S}_{\tau_1}(f) \leq \omega(f, [a,b]) (\Delta_1 + ... + \Delta_2) < \omega(f, [a,b]) \* 2 \* k \* \delta
+    \]
+
+    Действительно, все отрезки, кроме тех, куда мы добавили точки из $\tau_0$ остались неизменными, те же 
+    отрезки, супремум же на добавленных отрезках, отличается от супремума отрезка в исходном разбиении куда 
+    входил добаленный отрезок, не более, чем на колебание на всей функции.
+
+    Отбросим случай, когда $\omega(f, [a,b]) = 0$, мы знаем как интегрировать константу.
+
+    Тогда выбирая $\delta = \frac{\varepsilon}{\omega(f, [a,b]) \* 2 \* k}$, получаем, что:
+
+    \[
+        \overline{S}_{\tau}(f) - \overline{I} < \overline{S}_{\tau}(f) - \overline{S}_{\tau_1}(f) + \varepsilon \leq 2 \varepsilon
+    \]
+\end{proof}
+
+\begin{theorem}
+$f: X \rightarrow \mathbb{R}$, определенная на $[a,b]$ и ограниченная функция. Тогда: 
+\[
+  f \in \mathcal{R}[a,b] \Leftrightarrow \overline{I} = \underline{I}
+\]
+
+Где $\overline{I},\; \underline{I}$ , верхний и нижний интеграл Дарбу для функции $f$.
+\end{theorem}
+
+\begin{proof}
+$\Rightarrow$
+
+Возьмем из определения интеграла такое $\delta$, что для любого $(\tau, c) \in \widetilde{T}$ с $|\tau| < \delta$, верно, что 
+
+\[
+     I - \eps \leq S_{\tau, c}(f) \leq I + \eps
+\]
+
+$ I - \eps, \quad I + \eps$ есть верхние и нижние грани разбиений $S_{\tau, c}(f)$, тогда супремум и инфинум 
+по всем разбиений не больше (не меньше) соответствующих граней разбинения, таким образом:
+
+\[
+     I - \eps \leq \underline{S}_\tau(f) \leq S_{\tau, c}(f) \leq \overline{\tau}(f) \leq I + \eps
+\]
+
+Таким образом, выбирая мелкость разбиения $\delta$ мы можем зажать верхние и нижние суммы Дарбу для произвольного разбиения так.
+
+\[
+    I - \eps  \leq \underline{S}_\tau(f) \leq I + \eps, \quad  I - \eps  \geq \overline{S}_\tau(f) \geq I + \eps
+\]
+
+Следовательно, мы показали, что \[ 
+    \lim_{|\tau| \rightarrow 0} \underline{S}_\tau(f) = I, \quad \lim_{|\tau| \rightarrow 0} \overline{S}_\tau(f) = I
+    \]
+
+$\Leftarrow$
+
+Для произвольного отмеченного разбиения верно, что:
+
+\[
+    \underline{S}_\tau(f) = \inf_{c} S_{\tau, c}(f) \leq S_{\tau, c}(f) \leq \sup_{c} S_{\tau, c}(f) = \overline{S}_\tau(f)
+\]
+
+Выберем такие $\delta_1, \delta_2$ , что при $|\tau| < \delta_1: \underline{S}_\tau(f) > \underline{I} - \eps$, а при $
+|\tau| < \delta_2: \overline{S}_\tau(f) < \overline{I} + \eps$, тогда при $\delta = \min{\delta_1, \delta_2}$:
+
+\[
+    \underline{I} - \eps  S_{\tau, c}(f) < S_{\tau, c}(f) < \overline{I} + \eps
+\]
+
+Так как $\underline{I} = \overline{I}$, наше доказательство окончено.
+\end{proof}
 \subsection{Следствия из критерия Дарбу}
 \begin{theorem}
 Если $f$ определена и монотонна на $[a, b]$, то $f$ интегрируема по Риману на $[a, b]$.
