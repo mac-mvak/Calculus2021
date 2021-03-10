@@ -1167,6 +1167,84 @@ $\overline{S}_{\tau}(f_2) - \underline{S}_{\tau}(f_1)$ и  $\underline{S}_{\tau}
 
 \end{proof}
 
+\section{Площадь криволинейного сектора}
+
+Рассмотрим $r = r(\varphi)$ -- уравнение кривой в полярной системе координат, где $\varphi\in[\alpha, \beta]$ $r \geq 0$.
+
+\begin{definition}
+Пусть $0<\beta - \alpha \leq 2\pi$ и $r(\varphi)\geq 0$ при $\varphi\in[\alpha, \beta]$, $(r, \varphi)$ -- полярные координаты точек. Фигура 
+\[
+\Phi = \{(r, \varphi) \;|\; \alpha \leq \varphi \leq \beta,\;0\leq r\leq r(\varphi)\}
+\]
+называется криволинейным сектором.
+\end{definition}
+
+
+\begin{claim}
+Если $r(*)\in R[\alpha, \beta]$, то соответствующий криволинейный сектор $\Phi$ квадрируем и $$S(\Phi) = \int_{\alpha}^{\beta}\frac{1}{2}r^2(\varphi)d\varphi.$$
+\end{claim}
+\begin{proof}
+
+\paragraph{Отступление:} $$S_{\text{круг с радиусом }R} = \int_{-R}^R(\sqrt{R^2-x^2} + \sqrt{R^2-x^2})dx=\pi R^2 .$$
+
+$$S_{\text{сектор с углом }\alpha} = \frac{\alpha}{2\pi}S_{\text{круг с радиусом }R} = \frac{1}{2}\alpha R^2.$$
+
+Рассмотрим разбиение $\tau = \{\varphi_i\}_{i=0}^n$  отрезка $[\alpha, \beta]$, где $\alpha = \varphi_0<\varphi_1<\ldots \varphi_{n} =\beta$.
+
+Положим $m_i = \inf r_{[\varphi_{i-1}, \varphi_i]}(\varphi)$, $M_i = \sup r_{[\varphi_{i-1}, \varphi_i]}(\varphi)$. Далее рассмотрим следующие фигуры: $$\displaystyle \underline{\Phi}_{\tau} = \cup_{i=1}^n\Big\{ (r, \varphi) \Big| \varphi_{i-1} \leq \varphi \leq \varphi_{i},\; 0\leq r\leq m_i \Big\} \text{ -- красная фигура},$$ \textcolor{red}{аххаххаахха, простите}
+$$\displaystyle \overline{\Phi}_{\tau} = \cup_{i=1}^n\Big\{ (r, \varphi) \Big| \varphi_{i-1} \leq \varphi \leq \varphi_{i},\; 0\leq r\leq M_i \Big\} \text{ -- синяя фигура,}$$
+где $\underline{\Phi}_{\tau} \subseteq \Phi \subseteq \overline{\Phi}_{\tau}$. Заметим, что $$S(\underline{\Phi}_{\tau}) = \sum_{i=1}^n \frac{1}{2}m_i^2\Delta\varphi_i,\;\;\;S(\overline{\Phi}_{\tau}) = \sum_{i=1}^n \frac{1}{2}M_i^2\Delta\varphi_i-$$
+это нижняя и верхняя суммы Дарбу для $f(\varphi) = \frac{1}{2}r^2(\varphi)$. Из интегрируемости $r(\varphi)$ следует, что $f(\varphi)$ также интегрируема.
+
+Таким образом, и  $\displaystyle S(\underline{\Phi}_{\tau})$, и $\displaystyle S(\overline{\Phi}_{\tau})$ стремятся к $\displaystyle \int_{\alpha} ^{\beta} \frac{1}{2}r^2(\varphi)d\varphi$ с разных сторон при $|\tau| \to 0$.
+
+Следовательно, $\Phi$ имеет именно такую площадь.
+
+\end{proof}
+
+
+\textcolor{cyan}{Я тут немного замял под ковер рассуждения, но тем не менее, это как-то вот так работает.}
+
+
+\subsection{Объем тела вращения}
+\begin{definition}
+Тело вращения -- трехмерная фигура, "заметаемая" криволинейной трапецией для $f(x)$ при вращении вокруг $Ox$. Иными словами
+$$\Omega \Big\{ (x, y, z)\in \mathbb{R}^3 \;\Big|\; a\leq x\leq b,\; \sqrt{y^2+z^2}\leq f(x) \Big\}.$$
+\textbf{Комментарий:} Пусть $f(x) \geq 0$ на $[a, b]$.
+\end{definition}
+
+\begin{claim}
+Пусть $f\in R[a, b]$, тогда $\Omega$ кубируема и 
+$$Vol(\Omega) = \int_a^b \pi\cdot f^2(x)dx.$$
+\end{claim}
+
+\subsection{Длины кривых}
+Будем рассматривать кривые в $\mathbb{R}^2$. 
+Непрерывная кривая $$\Gamma = \Big\{x(t), y(t)\;\Big|\;t\in[\alpha, \beta]\Big\},$$ где $x, y$ непрерывны на $[\alpha, \beta]$.  
+\textcolor{red}{блять позвонили из тинькоффа} 
+$$\overrightarrow{r}(t) = (x(t), y(t)) \in \mathbb{R}^2,$$
+$$\overrightarrow{r} : [\alpha, \beta] \rightarrow \mathbb{R}^2 \text{ -- вектор-функция.}$$
+\begin{definition}
+$\Gamma$ называется дифференцируемой (соответственно гладкой) если $x(*), y(*)$ таковы, что они параметризуемы с помощью фиг знает чего, там не вышло узнать...
+\end{definition}
+
+%%перечитать, спасибо Елене из тинькоффа}
+
+Длина отрезка $AB$ $(A=(x_A, y_A), B = (x_B, y_B))$ равна $||B-A|| = \sqrt{(x_B -x_a)^2 + (y_B-y_A)^2}$.
+Тогда длина ломаной -- сумма длин звеньев.
+Если $\Gamma$ -- кривая $\Big\{\overrightarrow{r}(t)\; | \; t \in [\alpha, \beta]\Big\}$, то выберем разбиение $\tau$ отрезка $[\alpha, \beta]$ ($\alpha = t_0<t_1<\ldots t_{n} =\beta$).
+Соединяя $\overrightarrow{r}(t_{i-1})$ с $\overrightarrow{r}(t_i)$, получаем ломанную $\Gamma_{\tau}$:
+$$l(\Gamma_{\tau}) = \sum_{i=1}^{n} ||\overrightarrow{r}(t_{i-1}) - \overrightarrow{r}(t_i) ||.$$
+
+\begin{definition}
+Если существует $\sup_{\tau} l(\Gamma_{\tau}) = l< \infty$, то $\Gamma$ называется спрямляемой (имеющей длину) и ее длина равна $l(\Gamma) = l$.
+\end{definition}
+
+\paragraph{Замечание:} Определение длины не зависит от параматризации. 
+\begin{proof}
+Пусть $(x(t), y(t))$, $t\in [\alpha, \beta]$ -- одна параметризация. Возьмем новый параметр $s$ и $t=t(s)$ $s\in [\widetilde{\alpha}, \widetilde{\beta}]$ с условием $t(s)$ строго монотонна и непрерывна. 
+%%и здесь какие-то рисуночки и надо дописать
+\end{proof}
 
 
 
