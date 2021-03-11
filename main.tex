@@ -1246,17 +1246,125 @@ $$l(\Gamma_{\tau}) = \sum_{i=1}^{n} ||\overrightarrow{r}(t_{i-1}) - \overrightar
 %%и здесь какие-то рисуночки и надо дописать
 \end{proof}
 
+\textcolor{blue}{бля, все еще не пришла посылка, жду((}
+\textcolor{blue}{о, приехала}
+\textcolor{red}{забрал?}
+\textcolor{blue}{дыа, правда еще не разрезал даже}
+\textcolor{blue}{кажется, что после пар прям и дэдлайны далеко, кроме коллока по дискре}
+\textcolor{blue}{игнор?!?!?!?!}
 
 
 
+\textbf{Пример:} Непрерывные неспрямляемые кривые:
+\begin{itemize}
+    \item Фракталы
+    \begin{itemize}
+        \item Кривая Коха. Будем задавать кривую в несколько шагов. На первом шаге положим, $x(t) = t, y(t) = 0$ при $t\in[0,1]$. На следующем шаге добавим "холмик" в виде равностороннего треугольника на $t\in \Big(\frac{1}{3}, \frac{2}{3}\Big)$. Процесс напоминает построение Канторова множества, только сторить "холмики" необходимо не только на оси $Ox,$ а на всех отрезках (на их средних третях), которые получаются в процессе разбиения. Формально говоря,
+        \[
+        Koch = \lim_{n \to \infty}K_n
+        \]
+        где $K_n$ - это кривая Коха, полученная на $n$-м шаге. Более того, если $x = \varphi_n(t)$ и $y = \psi_n(t)$, то $\varphi(t) = \lim_{n\to \infty} \varphi_n(t)$ и $\psi(t) = \lim_{n\to \infty} \psi_n(t)$ являются непрерывными функциями. Кривая действительно не спрямляема, так как на каждом шаге длина увеличивается в $\frac{4}{3}$ раза.
+        При $n = 3$ кривая выглядит так:
+        
+        \begin{center}
+            \includegraphics[scale=0.5]{koch}
+        \end{center}
+    
+        \item Кривая Пеано. Будем делать что-то похоже, также действуя последовательно. Рассмотриваем единичный квадрат и начинаем из левой нижней точки. На первом шаге пойдем в центр и вниз по диагонали, получив "уголок". На следующем шаге разобьем квадрат на 4 квадратика поменьше и будем в каждой строить такой уголок таким образом, чтобы все уголки образовывали замкнутый маршрут.
+        \begin{center}
+            \includegraphics[scale=0.5]{Peano.PNG}
+        \end{center}
+  
+ $$Peano = \lim_{n\to\infty} P_n$$
+    \begin{claim}
+    Кривая Пеано непрерывна, имеет бесконечную длину, заполняет весь квадрат.\\
+    \textcolor{cyan}{Доказывать опять не буду}
+    \end{claim}
+    \end{itemize}
+\end{itemize}
 
 
 
+\begin{theorem}\label{th:spr}
+Если $\overrightarrow{r}(t) = (x(t), y(t))$, $t\in [\alpha, \beta]$ непрерывно дифференцируема (то есть у обоих параметризаций есть непрерывные производные), то она спрямляема и
+$$l(\Gamma) = \int_{\alpha}^{\beta}\sqrt{(x'_{t})^2 + (y'_{t})^2}dt.$$
+\end{theorem}
+
+\textbf{Комментарий:} Длина ломанной не превосходит длину отрезка, соединяющего крайние точки (неравенство треугольника в пределе). 
+Необходимо доказать, что длину ломанной можно ограничить с другой стороны длиной отрезка, умноженного на некоторую константу.
+
+\begin{proof}
+Для начала докажем спрямляемость. 
 
 
+\begin{lemma}\label{l:}
+ Пусть $\overrightarrow{r}(t) = (x(t), y(t))$ непрерывна дифференцируема на $[a. b]$. Рассмотрим $\overrightarrow{\Delta} = \overrightarrow{r}(b) - \overrightarrow{r}(a).$ Тогда $$\|\overrightarrow{\Delta}\| \leq \max_{[a, b]} \|\overrightarrow{r_t}'\|\cdot (b-a) $$
+ 
+ $\overrightarrow{r_t}' = (x_t', y_t')$, $\|\overrightarrow{r_t}'\| = \sqrt{(x_t')^2 + (y_t')^2}$ - непрерывная функция на отрезке $[a, b]$ (существует максимум на отрезке).
+ \end{lemma}
+ \begin{proof}
+ Введем функцию $$f(t) = \Big< \overrightarrow{r}(t) - \overrightarrow{r}(a), \overrightarrow{\Delta}\Big> = (x(t) - x(a))\cdot(x(b) - x(a)) + (y(t)-y(a))\cdot(y(b)-y(a))- \text{ скалярное произведение.}$$ 
+ Заметим, что $f(a) = 0, f(b) =\|\overrightarrow{\Delta}\|^2 $,
+ $$f_t' = x_t'(x(b) - x(a)) + y_t'(y(b) - y(a)) = \Big<\overrightarrow{r}_t', \overrightarrow{\Delta}\Big>.$$
+ Применим к $f$ теорему Лагранжа и получим, что $\exists\; c \in [a,b]: f(b) - f(a) = f_t'(c)(b-a).$ В таком случае $$|f'_t(c)(b-a)| = \Big|\Big<\overrightarrow{r}_t', \overrightarrow{\Delta}\Big> \cdot (b - a)\Big| =  \| \overrightarrow{r}_t'\|\cdot \|\overrightarrow{\Delta}\| \cdot |\cos|\cdot (b-a) \leq \| \overrightarrow{r}_t'\|\cdot \|\overrightarrow{\Delta}\| \cdot(b-a).$$
+  Поделим на $\|\overrightarrow{\Delta}\|$, и получим, что 
+  \[
+  \|\overrightarrow{\Delta}\| \leq \max_{[a, b]} \|\overrightarrow{r'_t}\| \cdot (b - a).
+  \]
+Если $\|\overrightarrow{\Delta}\| =0$, то утверждение очевидно.
+ \end{proof}
+
+ \begin{lemma}\label{l:l2intheorem}
+  Длина любой ломанной, вписанной в $\Gamma = \Big\{ \overrightarrow{r}(t)\;|\; t\in [\alpha, \beta]\Big\}$
+  ограничена сверху величиной $$\max_{t \in [\alpha, \beta]}\|\overrightarrow{r'_t}\| \cdot (\beta - \alpha).$$
+ \end{lemma}
+\begin{proof}
+%картинка
+Для каждого отрезка ломанной ($\alpha = t_0 < t_1 <\ldots < t_n = \beta$) рассмотрим
+$\overrightarrow{\Delta_i} = \overrightarrow{r}(t_i) - \overrightarrow{r}(t_{i-1}) $, тогда
+
+$$  \|\overrightarrow{\Delta}\| \leq \max_{[\alpha, \beta]} \|\overrightarrow{r'_t}\| \cdot (t_i - t_{i-1}).$$
+
+Просуммируем по $i = \overline{1, n}$
+и получим, что $\text{длина ломаной} \leq \max_{t \in [\alpha, \beta]}\|\overrightarrow{r'_t}\| \cdot (\beta - \alpha).$
+Такимс образом, спрямляемость доказана, так как есть ограничение с двух сторон.
+\end{proof}
 
 
+Теперь докажем 
+$$l(\Gamma) = \int_{\alpha}^{\beta}\sqrt{(x'_{t})^2 + (y'_{t})^2}dt.$$
+
+\paragraph{Замечание} Если $\Gamma$ спрямляема на $[\alpha, \beta]$ то она же спрямляема и на любом внутреннем подотрезке.
+
+Рассмотрим функцию $L(t) = l(\Gamma \text{ на отрезке } [\alpha, t])$. 
+Найдем $$L_t'(t_0) =\lim _{\Delta t\to 0} \frac{L(t_0+\Delta t) - L(t_0)}{\Delta t} = \lim _{\Delta t\to 0} \frac{l(\Gamma \text{ на отрезке } [\alpha, t])}{\Delta t}.$$ 
+Таким образом будет доказано еще и существование производной.
+Имеем, что 
+\[\|\overrightarrow{r}(t_0+\Delta t) \| - \|\overrightarrow{r}(t_0)\| \leq
+l(\Gamma \text{ на отрезке } [t_0, t_0 + \Delta t]) \leq \max_{[t_0, t_0 + \Delta t]}\|\overrightarrow{r'_t}\| \cdot \Delta t
+\]
+Первое неравенсвто выполнено по неравенству треугольника, а второе -- по лемме \ref{l:l2intheorem}.
+
+Поделим полученные неравенства на $\Delta t$ и перейдем к $\Delta t\to 0$.\\
+
+Справа:
+$$\lim_{\Delta t\to 0} \max_{[t_0, t_0 \Delta t ]} \|\overrightarrow{r'_t}\| = \|\overrightarrow{r'_t}\|(t_0).$$
+Слева:
+$$\lim _{\Delta t\to 0} \frac{\|\overrightarrow{r}(t_0+\Delta t) - \overrightarrow{r}(t_0)\|}{\Delta t} =$$
+$$=\lim_{\Delta t \to 0} \frac{\sqrt{[x(t_0 + \Delta t) - x(t_0)]^2 + [y(t_0 + \Delta t) - y(t_0)]^2}}{\Delta t} = \lim_{\Delta t \to 0} \sqrt{\left(\frac{x(t_0 + \Delta t) - x(t_0)}{\Delta t}\right)^2 + \left(\frac{y(t_0 + \Delta t) - y(t_0)}{\Delta t}\right)^2}$$
+
+В силу того, что функции под корнем непрерывные, допустимо занести пределы внутрь, тогда под корнем окажутся производные, и выражение имеет вид:
+\[
+\sqrt{(x'_t(t_0))^2 + (y'_{t}(t_0))^2} = \|\overrightarrow{r_t'}(t_0) \|.
+\]
+Значит, $L$ -- первообразная от 
+$\|\overrightarrow{r_t'}(t_0) \|$
+
+Теперь по формуле Ньютона - Лейбница получим, что $$\int_{\alpha}^{\beta} \sqrt{(x'_t)^2 + (y'_{t})^2}=\int_{\alpha}^{\beta}\|\overrightarrow{r_t'}\|dt = L(\beta) - L(\alpha) = l(\Gamma \text{ на } [\alpha, \beta]) - 0.$$
+
+\textbf{Замечание:} Введем "элемент длины" $dl = \sqrt{(dx)^2+(dy)^2}$
+$$l = \int_{\alpha}^{\beta} dl = \sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2}.$$
 
 
-
+\end{proof}
 \end{document}
